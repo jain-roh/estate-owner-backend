@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Property(models.Model):
-   user=models.ForeignKey(User,related_name='user_id')
+   user=models.ForeignKey(User,related_name='user_id',on_delete=models.CASCADE)
    name = models.CharField(max_length=200,null=True)
    neighbourhood = models.CharField(max_length=200, null=True)
    latitude=models.FloatField()

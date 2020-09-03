@@ -28,11 +28,14 @@ def create_jwt(request):
         return HttpResponse({'error':'Wrong Username or Password'}, status=400)
     if user.is_staff:
         user=Seller.objects.get(id=user.id)
+        user=SellerSerializer(user)
     else:
         user=Buyer.objects.get(id=user.id)
-    data=serializers.serialize('json',[user,])
-    print(data)
-    return None
+        user=BuyerSerializer(user)
+    data = user.data
+    data.pop('password', None)
+    return tokenize(data, ip)
+    # return HttpResponse(user.errors, status=400)
 
 
 def create_user(request):
@@ -50,7 +53,7 @@ def create_user(request):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             data=serializer.data
-            data=data.pop('password',None)
+            data.pop('password',None)
             return tokenize(data,ip)
         return HttpResponse(serializer.errors, status=400)
     elif is_staff:

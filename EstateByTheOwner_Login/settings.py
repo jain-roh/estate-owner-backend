@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'User.apps.LoginConfig',
     'Property.apps.AppfeatureConfig',
 
+
 ]
 
 MIDDLEWARE = [

@@ -9,16 +9,19 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.views import generic
 from django.contrib.auth.models import User
-from .utility import create_property
+from .utility import create_property,search_property
 from .serializer import PropertySerializer
 from .models import Property
-
 class PropertyView(generics.ListCreateAPIView):
     serializer_class = PropertySerializer
     queryset = Property.objects.all()
 
     def post(self, request):
         return create_property(request)
+class PropertySearchView(generics.ListAPIView):
+    def get(self,request):
+        return search_property(request)
+
 
 
 

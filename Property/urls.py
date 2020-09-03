@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include
 from django.conf.urls import url
-from .views import PropertyView
+from .views import PropertyView,PropertySearchView
 urlpatterns = [
     url(r'create', PropertyView.as_view()),
+    url(r'^search$', PropertySearchView.as_view()),
 ]
