@@ -47,7 +47,7 @@ class BuyerSerializer(UserSerializer):
 
 class SellerSerializer(UserSerializer):
     id = serializers.ReadOnlyField()
-    description = serializers.CharField(max_length=1000, allow_null=False)
+    description = serializers.CharField(max_length=1000, allow_null=True)
     location = serializers.CharField(allow_blank=True)
     middle_name = serializers.CharField(allow_null=True)
     phone_number = serializers.IntegerField(allow_null=True)

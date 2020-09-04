@@ -1,4 +1,4 @@
-"""EstateByTheOwner_Login URL Configuration
+"""EstateByTheOwner URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -13,12 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.conf.urls import include
 from django.conf.urls import url
-
+from .views import VirtualTourView
 urlpatterns = [
-    url('admin/', admin.site.urls),
-    url(r'^login/', include('User.urls')),
-    url(r'^property/', include('Property.urls')),
+    url(r'send_request$', VirtualTourView.as_view()),
 ]

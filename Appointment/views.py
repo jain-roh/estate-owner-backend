@@ -9,14 +9,14 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.views import generic
 from django.contrib.auth.models import User
-from .utility import search_property
-from .serializer import PropertySerializer
-from .models import Property
+from .serializer import AppointmentSerializer
+from .models import Appointment
 from rest_framework.mixins import UpdateModelMixin
 
-class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
-    serializer_class = PropertySerializer
-    queryset = Property.objects.all()
+class AppointmentView(generics.ListCreateAPIView,UpdateModelMixin):
+    serializer_class = AppointmentSerializer
+    queryset = Appointment.objects.all()
+
 
     def post(self, request):
         return self.create(request)
@@ -24,9 +24,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
     def put(self,request,*args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
-class PropertySearchView(generics.ListAPIView):
-    def get(self,request):
-        return search_property(request)
+
 
 
 

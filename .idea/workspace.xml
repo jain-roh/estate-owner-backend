@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5cc44598-6a9a-4f0d-b65a-f87e7bf67333" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-    </list>
+    <list default="true" id="5cc44598-6a9a-4f0d-b65a-f87e7bf67333" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,10 +31,12 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../EstateByTheOwner" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyDependenciesConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/../EstateByTheOwner" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -108,7 +108,8 @@
       <workItem from="1598644352707" duration="231000" />
       <workItem from="1598717406329" duration="84000" />
       <workItem from="1598816312460" duration="5398000" />
-      <workItem from="1598910105535" duration="16160000" />
+      <workItem from="1598910105535" duration="20449000" />
+      <workItem from="1599238921326" duration="5068000" />
     </task>
     <servers />
   </component>
@@ -120,6 +121,14 @@
       <screen x="0" y="23" width="1280" height="730" />
     </state>
     <state x="341" y="23" key="#EstateByTheOwner_AppFeature/0.23.1280.730@0.23.1280.730" timestamp="1598920806790" />
+    <state x="378" y="140" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1599254390635">
+      <screen x="0" y="23" width="1280" height="726" />
+    </state>
+    <state x="378" y="140" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1280.726@0.23.1280.726" timestamp="1599254390635" />
+    <state x="149" y="25" key="SettingsEditor" timestamp="1599254065756">
+      <screen x="0" y="23" width="1280" height="726" />
+    </state>
+    <state x="149" y="25" key="SettingsEditor/0.23.1280.726@0.23.1280.726" timestamp="1599254065756" />
     <state x="319" y="243" key="com.intellij.ide.util.TipDialog" timestamp="1598488746376">
       <screen x="0" y="23" width="1280" height="730" />
     </state>

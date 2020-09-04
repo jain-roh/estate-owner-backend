@@ -9,24 +9,21 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.views import generic
 from django.contrib.auth.models import User
-from .utility import search_property
-from .serializer import PropertySerializer
-from .models import Property
+from .serializer import VirtualTourSerializer
+from .models import VirtualTour
 from rest_framework.mixins import UpdateModelMixin
 
-class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
-    serializer_class = PropertySerializer
-    queryset = Property.objects.all()
+class VirtualTourView(generics.ListCreateAPIView,UpdateModelMixin):
+    serializer_class = VirtualTourSerializer
+    queryset = VirtualTour.objects.all()
+
 
     def post(self, request):
         return self.create(request)
 
-    def put(self,request,*args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
 
-class PropertySearchView(generics.ListAPIView):
-    def get(self,request):
-        return search_property(request)
+
+
 
 
 

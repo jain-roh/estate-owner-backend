@@ -47,8 +47,9 @@ def create_user(request):
     is_staff=request.POST['is_staff']
     if is_staff is None:
         return HttpResponse({'error':'Please verify weather user is Buyer or Seller'},statusx=400)
-
-    if not is_staff:
+    print(is_staff)
+    if is_staff=='False':
+        print('dd')
         serializer = BuyerSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -56,7 +57,7 @@ def create_user(request):
             data.pop('password',None)
             return tokenize(data,ip)
         return HttpResponse(serializer.errors, status=400)
-    elif is_staff:
+    elif is_staff=='True':
         serializer = SellerSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()

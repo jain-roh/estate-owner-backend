@@ -26,3 +26,9 @@ class PropertySerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return Property.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        prop = Property.objects.get(pk=instance.id)
+        Property.objects.filter(pk=instance.id) \
+            .update(**validated_data)
+        return prop
