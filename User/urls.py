@@ -18,6 +18,6 @@ from django.conf.urls import include
 from django.conf.urls import url
 from .views import UserLogin,CreateUser
 urlpatterns = [
-    url(r'verify', UserLogin.as_view()),
+    url(r'login', UserLogin.as_view()),
     url(r'create',CreateUser.as_view()),
 ]

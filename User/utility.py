@@ -82,7 +82,7 @@ def tokenize(data,ip):
     data.expiry=expiry
     token = jws.sign(data,
                      'seKre8' + ip, algorithm='HS256')
-    return HttpResponse(token,status=201)
+    return HttpResponse([{'token':token}],status=201)
 
 
 

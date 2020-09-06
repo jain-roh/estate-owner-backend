@@ -24,8 +24,8 @@ class UserSerializer(serializers.Serializer):
 
 class BuyerSerializer(UserSerializer):
     id = serializers.ReadOnlyField()
-    location = serializers.CharField(allow_blank=False)
-    middle_name = serializers.CharField(allow_null=True)
+    location = serializers.CharField(allow_blank=False,allow_null=True,default=None)
+    middle_name = serializers.CharField(allow_null=True,default=None)
 
     class Meta:
         model = Buyer
@@ -47,10 +47,10 @@ class BuyerSerializer(UserSerializer):
 
 class SellerSerializer(UserSerializer):
     id = serializers.ReadOnlyField()
-    description = serializers.CharField(max_length=1000, allow_null=True)
-    location = serializers.CharField(allow_blank=True)
-    middle_name = serializers.CharField(allow_null=True)
-    phone_number = serializers.IntegerField(allow_null=True)
+    description = serializers.CharField(max_length=1000, allow_null=True,default=None)
+    location = serializers.CharField(allow_blank=True,allow_null=True,default=None)
+    middle_name = serializers.CharField(allow_null=True,default=None)
+    phone_number = serializers.IntegerField(allow_null=True,default=None)
     class Meta:
         model = Seller
         fields = '__all__'

@@ -23,8 +23,16 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
 
     def put(self,request,*args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+    def get(self,request,*args, **kwargs):
+        propObj=Property.objects.get(pk=kwargs['pk'])
+        seri=PropertySerializer(propObj)
+        return Response(seri.data, status=status.HTTP_200_OK)
+
 
 class PropertySearchView(generics.ListAPIView):
+    serializer_class = PropertySerializer
+    queryset = Property.objects.all()
+
     def get(self,request):
         return search_property(request)
 

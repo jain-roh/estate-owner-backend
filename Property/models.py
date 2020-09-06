@@ -1,22 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from User.models import Seller
 class Property(models.Model):
-   user=models.ForeignKey(User,related_name='user_id',on_delete=models.CASCADE)
-   name = models.CharField(max_length=200,null=True)
-   neighbourhood = models.CharField(max_length=200, null=True)
-   latitude=models.FloatField()
-   longitude = models.FloatField()
+   user=models.ForeignKey(Seller,related_name='user_id',on_delete=models.CASCADE)
+   address1 = models.CharField(max_length=200,null=False,default='')
+   address2 = models.CharField(max_length=200, null=True)
+   city = models.CharField(max_length=200, null=False,default='')
+   state = models.CharField(max_length=200, null=False,default='')
+   zipcode = models.CharField(max_length=10, null=False,default='')
+   latitude=models.FloatField(null=False)
+   longitude = models.FloatField(null=False)
    price=models.FloatField(validators=[MinValueValidator(1,00)],default=1.00)
    beds=models.FloatField(validators=[MinValueValidator(0,00)],default=1.00)
    bath=models.FloatField(validators=[MinValueValidator(0,99)],default=1.00)
    size = models.FloatField(validators=[MinValueValidator(10,00)], default=1.00)
    description = models.CharField(max_length=1000, null=True)
-   CHOICES = [('residential', 'Residential'),
-              ('commercial', 'Commercial')]
+   CHOICES = [('townhouse', 'Townhouse'),
+              ('condo', 'Condo'),
+              ('apartment', 'Apartment'),
+              ('commercial', 'Commercial')
+              ]
    propertytype = models.CharField(
       choices=CHOICES,
-      default='residential', max_length=2)
+      default='townhouse', max_length=2)
    class Meta:
       db_table = "property"

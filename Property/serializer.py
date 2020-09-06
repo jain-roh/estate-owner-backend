@@ -3,23 +3,30 @@ import re
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from .models import Property
-
+from User.models import Seller
 class PropertySerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
-    user=serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    name = serializers.CharField(max_length=200, allow_null=True)
-    latitude = serializers.FloatField(allow_null=True)
-    longitude = serializers.FloatField(allow_null=True)
+    user=serializers.PrimaryKeyRelatedField(queryset=Seller.objects.all())
+    address1 = serializers.CharField(max_length=200, allow_null=False)
+    address2 = serializers.CharField(max_length=200, allow_null=True)
+    city = serializers.CharField(max_length=200, allow_null=False)
+    state = serializers.CharField(max_length=200, allow_null=False)
+    zipcode = serializers.CharField(max_length=10, allow_null=False)
+    latitude = serializers.FloatField(allow_null=False)
+    longitude = serializers.FloatField(allow_null=False)
     price = serializers.FloatField(validators=[MinValueValidator(1, 00)], default=1.00)
     beds = serializers.FloatField(validators=[MinValueValidator(0, 00)], default=1.00)
     bath = serializers.FloatField(validators=[MinValueValidator(0, 99)], default=1.00)
     size = serializers.FloatField(validators=[MinValueValidator(10, 00)], default=1.00)
     description = serializers.CharField(max_length=1000, allow_null=True)
-    CHOICES = [('residential', 'Residential'),
-               ('commercial', 'Commercial')]
+    CHOICES = [('townhouse', 'Townhouse'),
+               ('condo', 'Condo'),
+               ('apartment', 'Apartment'),
+               ('commercial', 'Commercial')
+               ]
     propertytype = serializers.ChoiceField(
         choices=CHOICES,
-        default='residential')
+        default='townhouse')
     class Meta:
         model = Property
         fields = '__all__'
