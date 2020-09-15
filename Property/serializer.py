@@ -2,8 +2,12 @@ from rest_framework import serializers
 import re
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
-from .models import Property
+from .models import Property,PropertyImages
 from User.models import Seller
+
+
+
+
 class PropertySerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     user=serializers.PrimaryKeyRelatedField(queryset=Seller.objects.all())
@@ -39,3 +43,14 @@ class PropertySerializer(serializers.Serializer):
         Property.objects.filter(pk=instance.id) \
             .update(**validated_data)
         return prop
+
+class PropertyImageSerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
+    property=serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
+    file=serializers.FileField()
+    class Meta:
+        model = PropertyImages
+        fields = '__all__'
+    def create(self, validated_data):
+        # user = User.objects.get(pk=self.data['user_id'])
+        return PropertyImages.objects.create(**validated_data)

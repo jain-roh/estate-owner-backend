@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from User.models import Seller
+from django.core.files.storage import FileSystemStorage
+from EstateByTheOwner.storage_backends import PublicMediaStorage,PrivateMediaStorage
+
+
+
 class Property(models.Model):
    user=models.ForeignKey(Seller,related_name='user_id',on_delete=models.CASCADE)
    address1 = models.CharField(max_length=200,null=False,default='')
@@ -24,5 +29,12 @@ class Property(models.Model):
    propertytype = models.CharField(
       choices=CHOICES,
       default='townhouse', max_length=2)
+
    class Meta:
       db_table = "property"
+
+class PropertyImages(models.Model):
+   property=models.ForeignKey(Property)
+   file=models.FileField(storage=PrivateMediaStorage())
+   class Meta:
+      db_table='property_img'
