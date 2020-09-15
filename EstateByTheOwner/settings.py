@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'Property.apps.AppfeatureConfig',
     'Appointment.apps.AppfeatureConfig',
     'storages',
-    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [

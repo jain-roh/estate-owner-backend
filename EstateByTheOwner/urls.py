@@ -16,11 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import include
 from django.conf.urls import url
-from rest_framework_swagger.views import get_swagger_view
-schema_view = get_swagger_view(title='Real Estate By The owner API')
 
 urlpatterns = [
-    url('^$',schema_view),
     url('admin/', admin.site.urls),
     url(r'^user/', include('User.urls')),
     url(r'^property/', include('Property.urls')),
