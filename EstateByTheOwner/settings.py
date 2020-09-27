@@ -93,11 +93,14 @@ WSGI_APPLICATION = 'EstateByTheOwner.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'NAME': 'estate_owner',
+    'USER':'estate_owner',
+    'PASSWORD': 'estate_owner_1234',
+    'HOST': 'estate-owner.chpwl56quy9u.us-east-1.rds.amazonaws.com',
+    'PORT': 5432,
     }
-}
+
 
 
 # Password validation

@@ -13,7 +13,13 @@ class PublicMediaStorage(S3Boto3Storage):
     file_overwrite = False
 
 class PrivateMediaStorage(S3Boto3Storage):
-    location = 'private'
+    location = 'private/property'
+    default_acl = 'private'
+    file_overwrite = False
+    custom_domain = False
+
+class ThumbnailStorage(S3Boto3Storage):
+    location = 'private/thumbnail'
     default_acl = 'private'
     file_overwrite = False
     custom_domain = False

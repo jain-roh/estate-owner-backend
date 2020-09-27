@@ -11,7 +11,6 @@ class UserLogin(generics.ListCreateAPIView):
 class CreateUser(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
     def post(self, request):
         return create_user(request)
 

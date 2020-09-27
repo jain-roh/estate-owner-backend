@@ -20,6 +20,7 @@ class AppointmentSerializer(serializers.Serializer):
         choices=CHOICES,
         default=None,
         allow_null=True    )
+    reschedule=serializers.IntegerField(default=0,allow_null=True)
     class Meta:
         model = Appointment
         fields = '__all__'

@@ -23,6 +23,8 @@ class PropertySerializer(serializers.Serializer):
     bath = serializers.FloatField(validators=[MinValueValidator(0, 99)], default=1.00)
     size = serializers.FloatField(validators=[MinValueValidator(10, 00)], default=1.00)
     description = serializers.CharField(max_length=1000, allow_null=True)
+    image_ico=serializers.ImageField(allow_null=True,default=None)
+    video=serializers.FileField(allow_null=True,default=None)
     CHOICES = [('townhouse', 'Townhouse'),
                ('condo', 'Condo'),
                ('apartment', 'Apartment'),
@@ -47,7 +49,7 @@ class PropertySerializer(serializers.Serializer):
 class PropertyImageSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     property=serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
-    file=serializers.FileField()
+    file=serializers.ImageField()
     class Meta:
         model = PropertyImages
         fields = '__all__'
