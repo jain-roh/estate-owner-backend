@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'EstateByTheOwner.middleware.ProcessViewNoneMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -93,13 +94,15 @@ WSGI_APPLICATION = 'EstateByTheOwner.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'estate_owner',
-    'USER':'estate_owner',
-    'PASSWORD': 'estate_owner_1234',
-    'HOST': 'estate-owner.chpwl56quy9u.us-east-1.rds.amazonaws.com',
-    'PORT': 5432,
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'estate_owner',
+        'USER':'estate_owner',
+        'PASSWORD': 'estate_owner',
+        'HOST': 'estate-owner2.chpwl56quy9u.us-east-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
+}
 
 
 

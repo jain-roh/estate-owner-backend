@@ -30,7 +30,7 @@ class Property(models.Model):
               ]
    propertytype = models.CharField(db_index=True,
       choices=CHOICES,
-      default='townhouse', max_length=2)
+      default='townhouse', max_length=50)
 
    def save(self, *args, **kwargs):
       if self.image_ico:

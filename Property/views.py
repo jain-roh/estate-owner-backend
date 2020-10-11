@@ -6,7 +6,6 @@ from rest_framework.views import APIView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from rest_framework import status
-from rest_framework.response import Response
 from django.views import generic
 from django.contrib.auth.models import User
 from .utility import search_property,upload_property_image,generate_file_name
