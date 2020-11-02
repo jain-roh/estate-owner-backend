@@ -26,6 +26,8 @@ def generate_file_name(file_name):
 
 def upload_property_image(files,id):
     images=[]
+    # if new_file:
+    #     new_file.seek(0)
     for upfile in files:
         upfile.name=generate_file_name(upfile.name)
         pf = PropertyImageSerializer(data={'file': upfile, 'property': id})
