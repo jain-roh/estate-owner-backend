@@ -1,7 +1,7 @@
 from io import BytesIO
 from django.core.files import File
 from PIL import Image
-def make_thumbnail(image, size=(100, 100)):
+def make_thumbnail(image, size=(300, 200)):
     """Makes thumbnails of given size from given image"""
 
     im = Image.open(image)
