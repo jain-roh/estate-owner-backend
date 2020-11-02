@@ -34,7 +34,7 @@ class Property(models.Model):
 
    def save(self, *args, **kwargs):
       if self.image_ico:
-         self.image_ico = make_thumbnail(self.image_ico, size=(150, 150))
+         self.image_ico = make_thumbnail(self.image_ico, size=(350, 300))
       super().save(*args, **kwargs)
    class Meta:
       db_table = "property"
@@ -42,7 +42,7 @@ class Property(models.Model):
 
 
 class PropertyImages(models.Model):
-   property=models.ForeignKey(Property)
+   property=models.ForeignKey(Property,related_name='property_image')
    file=models.ImageField(storage=PrivateMediaStorage())
    class Meta:
       db_table='property_img'

@@ -5,6 +5,16 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from .models import Property,PropertyImages
 from User.models import Seller
 
+class PropertyImageSerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
+    property=serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
+    file=serializers.ImageField()
+    class Meta:
+        model = PropertyImages
+        fields = '__all__'
+    def create(self, validated_data):
+        # user = User.objects.get(pk=self.data['user_id'])
+        return PropertyImages.objects.create(**validated_data)
 
 
 
@@ -33,6 +43,7 @@ class PropertySerializer(serializers.Serializer):
     propertytype = serializers.ChoiceField(
         choices=CHOICES,
         default='townhouse')
+    property_image = PropertyImageSerializer(read_only=True , many=True)
     class Meta:
         model = Property
         fields = '__all__'
@@ -46,13 +57,3 @@ class PropertySerializer(serializers.Serializer):
             .update(**validated_data)
         return prop
 
-class PropertyImageSerializer(serializers.Serializer):
-    id = serializers.ReadOnlyField()
-    property=serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
-    file=serializers.ImageField()
-    class Meta:
-        model = PropertyImages
-        fields = '__all__'
-    def create(self, validated_data):
-        # user = User.objects.get(pk=self.data['user_id'])
-        return PropertyImages.objects.create(**validated_data)

@@ -16,9 +16,9 @@ def search_property(request):
     print(property_filter.qs)
     ids=property_filter.qs.values_list('id', flat=True)
     serializer=PropertySerializer(property_filter.qs,many=True)
-    image_list=PropertyImages.objects.filter(id__in=ids)
-    imageSeriazlizer=PropertyImageSerializer(image_list,many=True)
-    return Response({'property':serializer.data,'images':imageSeriazlizer.data}, status=status.HTTP_200_OK)
+    # image_list=PropertyImages.objects.filter(id__in=ids)
+    # imageSeriazlizer=PropertyImageSerializer(image_list,many=True)
+    return Response({'property':serializer.data}, status=status.HTTP_200_OK)
 
 def generate_file_name(file_name):
     name=file_name.rsplit('.',1)
