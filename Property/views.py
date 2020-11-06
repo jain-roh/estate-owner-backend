@@ -19,7 +19,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
     serializer_class = PropertySerializer
     queryset = Property.objects.all()
     def post(self, request):
-        file_list=request.FILES.getlist('images',[])
+        file_list=request.FILES.getlist('images',request.FILES)
         if len(file_list)>0:
             new_file=copy.deepcopy(file_list[0])
             new_file.name=generate_file_name(new_file.name)
