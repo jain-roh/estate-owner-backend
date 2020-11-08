@@ -19,7 +19,7 @@ class AppointmentView(generics.ListCreateAPIView,UpdateModelMixin):
 
 
     def post(self, request):
-        print(Request.data)
+        print(request.data)
         return self.create(request)
 
     def put(self,request,*args, **kwargs):
