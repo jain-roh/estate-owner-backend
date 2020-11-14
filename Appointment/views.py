@@ -25,6 +25,18 @@ class AppointmentView(generics.ListCreateAPIView,UpdateModelMixin):
     def put(self,request,*args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
+class AppointViewAll(generics.ListCreateAPIView):
+    serializer_class = AppointmentSerializer
+    queryset = Appointment.objects.all()
+    def get(self,request,*args, **kwargs):
+        print(kwargs,args,request.data)
+        if request.data.get('buyer',None):
+            appointment_obj=Appointment.objects.filter(buyer=request.data['buyer'])
+        elif request.data.get('seller',None):
+            appointment_obj = Appointment.objects.filter(seller=request.data['seller'])
+        serializer = AppointmentSerializer(appointment_obj,many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 

@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import include
 from django.conf.urls import url
-from .views import AppointmentView
+from .views import AppointmentView,AppointViewAll
 urlpatterns = [
-    url(r'', AppointmentView.as_view()),
     url(r'create$', AppointmentView.as_view()),
     url(r'reschedule/(?P<pk>\d+)$',AppointmentView.as_view()),
+    url(r'search', AppointViewAll.as_view()),
+    url(r'$', AppointmentView.as_view()),
+
 ]
