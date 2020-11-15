@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from .models import Appointment
 from Property.models import Property
 from User.models import Buyer,Seller
+from User.serializer import BuyerSerializer,SellerSerializer
 
 class AppointmentSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
@@ -21,6 +22,8 @@ class AppointmentSerializer(serializers.Serializer):
         default=None,
         allow_null=True    )
     reschedule=serializers.IntegerField(default=0,allow_null=True)
+    buyer = BuyerSerializer(read_only=True , many=False)
+    seller = SellerSerializer(read_only=True, many=False)
     class Meta:
         model = Appointment
         fields = '__all__'
