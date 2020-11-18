@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.views import generic
 from django.contrib.auth.models import User
-from .serializer import AppointmentSerializer
+from .serializer import AppointmentSerializer,AppointmentViewSerializer
 from .models import Appointment
 from rest_framework.mixins import UpdateModelMixin
 
@@ -26,7 +26,7 @@ class AppointmentView(generics.ListCreateAPIView,UpdateModelMixin):
         return self.partial_update(request, *args, **kwargs)
 
 class AppointViewAll(generics.ListCreateAPIView):
-    serializer_class = AppointmentSerializer
+    serializer_class = AppointmentViewSerializer
     queryset = Appointment.objects.all()
     def get(self,request,*args, **kwargs):
         print(kwargs,args,request.GET)
@@ -34,7 +34,7 @@ class AppointViewAll(generics.ListCreateAPIView):
             appointment_obj=Appointment.objects.filter(buyer=request.GET['buyer'])
         elif request.GET.get('seller',None):
             appointment_obj = Appointment.objects.filter(seller=request.GET['seller'])
-        serializer = AppointmentSerializer(appointment_obj,many=True)
+        serializer = AppointmentViewSerializer(appointment_obj,many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

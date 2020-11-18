@@ -22,8 +22,9 @@ class AppointmentSerializer(serializers.Serializer):
         default=None,
         allow_null=True    )
     reschedule=serializers.IntegerField(default=0,allow_null=True)
-    buyer = BuyerSerializer(read_only=True , many=False)
-    seller = SellerSerializer(read_only=True, many=False)
+    buyer_data = BuyerSerializer(read_only=True , many=False)
+    seller_data = SellerSerializer(read_only=True, many=False)
+
     class Meta:
         model = Appointment
         fields = '__all__'
@@ -36,3 +37,24 @@ class AppointmentSerializer(serializers.Serializer):
         Appointment.objects.filter(pk=instance.id) \
             .update(**validated_data)
         return appointment
+class AppointmentViewSerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
+    buyer = serializers.PrimaryKeyRelatedField(queryset=Buyer.objects.all())
+    seller = serializers.PrimaryKeyRelatedField(queryset=Seller.objects.all())
+    property=serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
+    datetime = serializers.DateTimeField()
+    CHOICES = [
+                ('accept', 'Accept'),
+               ('reschedule', 'Reschedule'),
+               ('reject', 'Reject')]
+    response = serializers.ChoiceField(
+        choices=CHOICES,
+        default=None,
+        allow_null=True    )
+    reschedule=serializers.IntegerField(default=0,allow_null=True)
+    buyer = BuyerSerializer(read_only=True , many=False)
+    seller = SellerSerializer(read_only=True, many=False)
+
+    class Meta:
+        model = Appointment
+        fields = '__all__'
