@@ -13,7 +13,7 @@ class Appointment(models.Model):
               ('reject', 'Reject')]
    response = models.CharField(
       choices=CHOICES,
-      default=None, max_length=2,null=True)
+      default=None, max_length=15,null=True)
    reschedule = models.IntegerField(null=True)
    class Meta:
       db_table = "appointment"

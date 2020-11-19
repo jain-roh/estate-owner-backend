@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'create$', AppointmentView.as_view()),
     url(r'reschedule/(?P<pk>\d+)$',AppointmentView.as_view()),
     url(r'search', AppointViewAll.as_view()),
-    url(r'$', AppointmentView.as_view()),
+    url(r'update/(?P<pk>\d+)/$', AppointmentView.as_view()),
+    url(r'', AppointmentView.as_view()),
 
 ]
