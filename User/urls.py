@@ -16,8 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import include
 from django.conf.urls import url
-from .views import UserLogin,CreateUser
+from .views import UserLogin,CreateUser,SellerDetails
 urlpatterns = [
     url(r'login', UserLogin.as_view()),
     url(r'create',CreateUser.as_view()),
+    url(r'details',SellerDetails.as_view()),
 ]
