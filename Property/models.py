@@ -35,6 +35,7 @@ class Property(models.Model):
    def save(self, *args, **kwargs):
       if self.image_ico:
          self.image_ico = make_thumbnail(self.image_ico, size=(350, 300))
+
       super().save(*args, **kwargs)
    class Meta:
       db_table = "property"

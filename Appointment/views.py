@@ -30,6 +30,7 @@ class AppointViewAll(generics.ListCreateAPIView):
     queryset = Appointment.objects.all()
     def get(self,request,*args, **kwargs):
         print(kwargs,args,request.GET)
+
         if request.GET.get('buyer',None):
             appointment_obj=Appointment.objects.filter(buyer=request.GET['buyer'])
         elif request.GET.get('seller',None):

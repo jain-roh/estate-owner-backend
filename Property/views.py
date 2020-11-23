@@ -20,7 +20,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
     queryset = Property.objects.all()
     def post(self, request):
         file_list=request.FILES.getlist('images',[])
-        print(request.data)
+        # print(request.data)
         if len(file_list)>0:
             new_file=copy.deepcopy(file_list[0])
             new_file.name=generate_file_name(new_file.name)
