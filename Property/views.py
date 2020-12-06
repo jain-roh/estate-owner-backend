@@ -22,7 +22,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         file_list=request.FILES.getlist('images',[])
         # print(request.data)
         if len(file_list)>0:
-            new_file=copy.deepcopy(file_list[0])
+            new_file=file_list[0]
             new_file.name=generate_file_name(new_file.name)
             # temp=copy.deepcopy(new_file)
 

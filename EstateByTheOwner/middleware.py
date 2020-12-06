@@ -2,6 +2,7 @@ from datetime import datetime
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
+from User.utility import verify_token
 class BaseMiddleware(object):
     def __init__(self, get_response):
         self.get_response = get_response
@@ -16,3 +17,8 @@ class ProcessViewNoneMiddleware(BaseMiddleware):
         if request.path=='/healthcheck/':
             return JsonResponse({'Health':'Health check okay'},status=200)
         # return None
+        token=request.META.get('HTTP_AUTHORIZATION','').replace('Bearer','').strip()
+        data=verify_token((token))
+        request.user2=data
+
+

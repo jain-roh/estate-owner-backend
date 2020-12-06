@@ -91,6 +91,14 @@ def tokenize(data,ip):
     token = jws.sign(data,settings.PRIVATE_KEY, algorithm='RS256', headers={'kid':'HtUDDTau8PSYOLLSdKFvb86SNfJoTqiD8eeCNnva'})
     return HttpResponse([{'token':token}],status=201)
 
+def verify_token(token):
+    try:
+        data=jws.verify(token,settings.PRIVATE_KEY, algorithms=['RS256'])
+        return json.loads(data)
+    except Exception as e:
+        pass
+
+
 
 
 
