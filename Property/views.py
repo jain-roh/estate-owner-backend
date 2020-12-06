@@ -29,7 +29,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         #     request.data['image_ico']=new_file
         #     file_list[0].seek(0)
 
-        request.data.copy()
+        # request.data.copy()
         # request.data['video']=request.FILES.get('video',None)
         # request.data['video']=None
         serializer = PropertySerializer(data=request.data)
