@@ -40,7 +40,6 @@ def create_jwt(request):
 
 
 def create_user(request):
-    print('I am here 2')
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -64,6 +63,7 @@ def create_user(request):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             data=serializer.data
+            print(data)
             data.pop('password',None)
             return tokenize(data,ip)
         print(serializer.errors)
@@ -73,6 +73,7 @@ def create_user(request):
 
 def tokenize(data,ip):
     try:
+
         expiry = datetime.date.today() + datetime.timedelta(minutes=2)
         expiry = json.dumps(
             expiry,
