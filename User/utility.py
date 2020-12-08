@@ -40,6 +40,7 @@ def create_jwt(request):
 
 
 def create_user(request):
+    print('I am here 2')
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -65,6 +66,7 @@ def create_user(request):
             data=serializer.data
             data.pop('password',None)
             return tokenize(data,ip)
+        print(serializer.errors)
         return HttpResponse(serializer.errors, status=400)
 
 
