@@ -87,7 +87,6 @@ def tokenize(data,ip):
     if data is None:
         return HttpResponse([{'error': 'Error Logging in an user'}], status=400)
     data.expiry=expiry
-    print(settings.BASE_DIR)
     token = jws.sign(data,settings.PRIVATE_KEY, algorithm='RS256', headers={'kid':'HtUDDTau8PSYOLLSdKFvb86SNfJoTqiD8eeCNnva'})
     return HttpResponse([{'token':token}],status=201)
 
