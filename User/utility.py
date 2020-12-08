@@ -70,25 +70,28 @@ def create_user(request):
 
 
 def tokenize(data,ip):
-    expiry = datetime.date.today() + datetime.timedelta(minutes=2)
-    expiry = json.dumps(
-        expiry,
-        sort_keys=True,
-        indent=1,
-        cls=DjangoJSONEncoder
-    )
-    hmac_key = {
-        "kty": "oct",
-        "kid": "018c0ae5-4d9b-471b-bfd6-eef314bc7037",
-        "use": "sig",
-        "alg": "HS256",
-        "k": "hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg"
-    }
-    if data is None:
-        return HttpResponse([{'error': 'Error Logging in an user'}], status=400)
-    data.expiry=expiry
-    token = jws.sign(data,settings.PRIVATE_KEY, algorithm='RS256', headers={'kid':'HtUDDTau8PSYOLLSdKFvb86SNfJoTqiD8eeCNnva'})
-    return HttpResponse([{'token':token}],status=201)
+    try:
+        expiry = datetime.date.today() + datetime.timedelta(minutes=2)
+        expiry = json.dumps(
+            expiry,
+            sort_keys=True,
+            indent=1,
+            cls=DjangoJSONEncoder
+        )
+        hmac_key = {
+            "kty": "oct",
+            "kid": "018c0ae5-4d9b-471b-bfd6-eef314bc7037",
+            "use": "sig",
+            "alg": "HS256",
+            "k": "hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg"
+        }
+        if data is None:
+            return HttpResponse([{'error': 'Error Logging in an user'}], status=400)
+        data.expiry=expiry
+        token = jws.sign(data,settings.PRIVATE_KEY, algorithm='RS256', headers={'kid':'HtUDDTau8PSYOLLSdKFvb86SNfJoTqiD8eeCNnva'})
+        return HttpResponse([{'token':token}],status=201)
+    except Exception as e:
+        print(e)
 
 def verify_token(token):
     try:
