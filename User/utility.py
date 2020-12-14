@@ -10,6 +10,12 @@ from .models import Buyer,Seller
 from django.core import serializers
 from django.conf import settings
 
+import firebase_admin
+
+# Use a service account
+
+
+db = firestore.client()
 def create_jwt(request):
     """
     the above token need to be saved in database, and a one-to-one
@@ -48,9 +54,8 @@ def create_user(request):
     is_staff=request.POST['is_staff']
     if is_staff is None:
         return HttpResponse({'error':'Please verify weather user is Buyer or Seller'},statusx=400)
-    print(is_staff)
+    
     if is_staff=='False':
-        print('dd')
         serializer = BuyerSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -60,6 +65,7 @@ def create_user(request):
         return HttpResponse(serializer.errors, status=400)
     elif is_staff=='True':
         serializer = SellerSerializer(data=request.data)
+
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             data=serializer.data

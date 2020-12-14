@@ -19,23 +19,16 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
     serializer_class = PropertySerializer
     queryset = Property.objects.all()
     def post(self, request):
+        if not request.user2:
+            return Response({'Invalid Token'},status=400)
+        elif request.user2['id']!=request.data['user']:
+            return Response({'Invalid Token'}, status=400)
         file_list=request.FILES.getlist('images',[])
-        # print(request.data)
-        # if len(file_list)>0:
-        #     new_file=file_list[0]
-        #     new_file.name=generate_file_name(new_file.name)
-        #     # temp=copy.deepcopy(new_file)
-        #
-        #     request.data['image_ico']=new_file
-        #     file_list[0].seek(0)
-
-        # request.data.copy()
-        # request.data['video']=request.FILES.get('video',None)
-        # request.data['video']=None
         serializer = PropertySerializer(data=request.data)
-        images=[]
         if serializer.is_valid():
+
             serializer.save()
+
             images=upload_property_image(file_list,serializer.data['id'])
         else:
             return Response(serializer.errors,status=404)
