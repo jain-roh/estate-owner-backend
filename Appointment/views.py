@@ -50,7 +50,7 @@ class AppointViewAll(generics.ListCreateAPIView):
         elif not bool(request.user2['is_staff']):
             id = request.user2['id']
         appointment_obj=None
-        console.log(id)
+        print(id)
         if not bool(request.user2['is_staff']):
             appointment_obj=Appointment.objects.filter(buyer=id)
         elif bool(request.user2['is_staff']):
