@@ -10,12 +10,10 @@ from .models import Buyer,Seller
 from django.core import serializers
 from django.conf import settings
 
-import firebase_admin
 
 # Use a service account
 
 
-db = firestore.client()
 def create_jwt(request):
     """
     the above token need to be saved in database, and a one-to-one
