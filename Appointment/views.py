@@ -28,15 +28,7 @@ class AppointmentView(generics.ListCreateAPIView,UpdateModelMixin):
             request.data['buyer'] = request.user2['id']
         request.POST._mutable = mutable
         return self.create(request)
-
     def put(self,request,*args, **kwargs):
-        # mutable = request.POST._mutable
-        # request.POST._mutable = True
-        # if bool(request.user2['is_staff']):
-        #     request.data['seller']=request.user2['id']
-        # elif not bool(request.user2['is_staff']):
-        #     request.data['buyer'] = request.user2['id']
-        # request.POST._mutable = mutable
         print(kwargs,args)
         return self.partial_update(request, *args, **kwargs)
 
@@ -50,7 +42,6 @@ class AppointViewAll(generics.ListCreateAPIView):
         elif not bool(request.user2['is_staff']):
             id = request.user2['id']
         appointment_obj=None
-        print(id)
         if not bool(request.user2['is_staff']):
             appointment_obj=Appointment.objects.filter(buyer=id)
         elif bool(request.user2['is_staff']):

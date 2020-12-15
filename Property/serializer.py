@@ -9,6 +9,7 @@ class PropertyImageSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     property=serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
     file=serializers.ImageField()
+    display=serializers.BooleanField(default=True)
     class Meta:
         model = PropertyImages
         fields = '__all__'

@@ -45,5 +45,7 @@ class Property(models.Model):
 class PropertyImages(models.Model):
    property=models.ForeignKey(Property,related_name='property_image')
    file=models.ImageField(storage=PrivateMediaStorage())
+   display=models.BooleanField(default=True)
+
    class Meta:
       db_table='property_img'

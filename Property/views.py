@@ -38,10 +38,20 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
     def get(self,request,*args, **kwargs):
         propObj=Property.objects.get(pk=kwargs['pk'])
         serializer=PropertySerializer(propObj)
-        propImage=PropertyImages.objects.filter(property=kwargs['pk'])
+        propImage=PropertyImages.objects.filter(property=kwargs['pk'],display=True)
         serializer2=PropertyImageSerializer(propImage,many=True)
         return Response({'property':serializer.data,'images':serializer2.data}, status=status.HTTP_200_OK)
 
+    def put(self,request,*args, **kwargs):
+        # mutable = request.POST._mutable
+        # request.POST._mutable = True
+        # if bool(request.user2['is_staff']):
+        #     request.data['seller']=request.user2['id']
+        # elif not bool(request.user2['is_staff']):
+        #     request.data['buyer'] = request.user2['id']
+        # request.POST._mutable = mutable
+        print(kwargs,args)
+        return self.partial_update(request, *args, **kwargs)
 class PropertySearchView(generics.ListAPIView):
     serializer_class = PropertySerializer
     queryset = Property.objects.all()
