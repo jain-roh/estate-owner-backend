@@ -6,7 +6,6 @@ from django.core.files.storage import FileSystemStorage
 from EstateByTheOwner.storage_backends import PublicMediaStorage,PrivateMediaStorage,ThumbnailStorage
 from .model_utility import make_thumbnail
 
-
 class Property(models.Model):
    user=models.ForeignKey(Seller,related_name='user_id',on_delete=models.CASCADE)
    address1 = models.CharField(db_index=True,max_length=200,null=False,default='')
@@ -35,7 +34,6 @@ class Property(models.Model):
    def save(self, *args, **kwargs):
       if self.image_ico:
          self.image_ico = make_thumbnail(self.image_ico, size=(350, 300))
-
       super().save(*args, **kwargs)
    class Meta:
       db_table = "property"
@@ -46,6 +44,5 @@ class PropertyImages(models.Model):
    property=models.ForeignKey(Property,related_name='property_image')
    file=models.ImageField(storage=PrivateMediaStorage())
    display=models.BooleanField(default=True)
-
    class Meta:
       db_table='property_img'

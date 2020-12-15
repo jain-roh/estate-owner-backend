@@ -19,21 +19,21 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
     serializer_class = PropertySerializer
     queryset = Property.objects.all()
     def post(self, request):
-        if not request.user2:
-            return Response({'Invalid Token'},status=400)
-        elif request.user2['id']!=request.data['user']:
-            return Response({'Invalid Token'}, status=400)
-        file_list=request.FILES.getlist('images',[])
-        serializer = PropertySerializer(data=request.data)
-        if serializer.is_valid():
-
-            serializer.save()
-
-            images=upload_property_image(file_list,serializer.data['id'])
-        else:
-            return Response(serializer.errors,status=404)
-        return Response({'property':serializer.data,'images':images},status=status.HTTP_200_OK)
-
+        try:
+            if not request.user2:
+                return Response({'Invalid Token'},status=400)
+            elif int(request.user2['id'])!=int(request.data['user']):
+                return Response({'Invalid Token'}, status=400)
+            file_list=request.FILES.getlist('images',[])
+            serializer = PropertySerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                images=upload_property_image(file_list,serializer.data['id'])
+            else:
+                return Response(serializer.errors,status=404)
+            return Response({'property':serializer.data,'images':images},status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
 
     def get(self,request,*args, **kwargs):
         propObj=Property.objects.get(pk=kwargs['pk'])
@@ -43,14 +43,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         return Response({'property':serializer.data,'images':serializer2.data}, status=status.HTTP_200_OK)
 
     def put(self,request,*args, **kwargs):
-        # mutable = request.POST._mutable
-        # request.POST._mutable = True
-        # if bool(request.user2['is_staff']):
-        #     request.data['seller']=request.user2['id']
-        # elif not bool(request.user2['is_staff']):
-        #     request.data['buyer'] = request.user2['id']
-        # request.POST._mutable = mutable
-        print(kwargs,args)
+
         return self.partial_update(request, *args, **kwargs)
 class PropertySearchView(generics.ListAPIView):
     serializer_class = PropertySerializer
