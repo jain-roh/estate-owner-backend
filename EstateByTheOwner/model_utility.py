@@ -3,7 +3,7 @@ from django.core.files import File
 from PIL import Image
 import os
 
-def make_thumbnail(image, size=(1000, 800)):
+def make_thumbnail(image, size=(1000, 800),name=None):
     """Makes thumbnails of given size from given image"""
     im = Image.open(image)
     im.thumbnail(size, Image.ANTIALIAS)
@@ -25,6 +25,6 @@ def make_thumbnail(image, size=(1000, 800)):
     # im.thumbnail(size) # resize image
     thumb_io = BytesIO() # create a BytesIO object
     im.save(thumb_io, FTYPE) # save image to BytesIO object
-    thumbnail = File(thumb_io, name=image.name) # create a django friendly File object
+    thumbnail = File(thumb_io, name=(name if name else image.name)) # create a django friendly File object
 
     return thumbnail

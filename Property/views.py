@@ -9,7 +9,7 @@ from rest_framework import status
 from django.views import generic
 from django.contrib.auth.models import User
 from .utility import search_property,upload_property_image,generate_file_name
-from .serializer import PropertySerializer,PropertyImageSerializer
+from .serializer import PropertySerializer,PropertyImageSerializer,PropertyImageUpdateSerializer
 from .models import Property,PropertyImages
 from rest_framework.mixins import UpdateModelMixin
 from django.db import transaction
@@ -33,18 +33,45 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
                 return Response(serializer.errors,status=404)
             return Response({'property':serializer.data,'images':images},status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
+            return Response(str(e),status=400)
 
     def get(self,request,*args, **kwargs):
         propObj=Property.objects.get(pk=kwargs['pk'])
         serializer=PropertySerializer(propObj)
-        propImage=PropertyImages.objects.filter(property=kwargs['pk'],display=True)
-        serializer2=PropertyImageSerializer(propImage,many=True)
+        prop=PropertyImages.objects.filter(property=kwargs['pk'],display=True)
+        serializer2=PropertySerializer(propImage,many=True)
         return Response({'property':serializer.data,'images':serializer2.data}, status=status.HTTP_200_OK)
 
     def put(self,request,*args, **kwargs):
+        if not request.user2:
+            return Response({'Invalid Token'}, status=400)
+        elif int(request.user2['id']) != int(request.data['user']):
+            return Response({'Invalid Token'}, status=400)
 
-        return self.partial_update(request, *args, **kwargs)
+        images=request.data.pop('images', [])
+
+        property_image = request.data.pop('property_image', [])
+        for prop_img in property_image:
+            prop_img_obj=PropertyImages.objects.get(id=prop_img.get('id'))
+            prop_img_serializer=PropertyImageUpdateSerializer(prop_img_obj,{'display':prop_img.get('display')})
+            if prop_img_serializer.is_valid():
+                prop_img_serializer.save()
+            else:
+                return Response(prop_img_serializer.errors, status=400)
+        # request.data._mutable = False
+        prop = Property.objects.get(id=request.data['id'])
+
+        serializer = PropertySerializer(prop,request.data)
+        if serializer.is_valid():
+            serializer.save()
+            # self.perform_update(serializer)
+            images_res = upload_property_image(images, serializer.data['id'])
+            return Response({'property':serializer.data,'images':images_res}, status=200)
+        else:
+            return Response(serializer.errors, status=400)
+
+        return Response(serializer.errors, status=400)
+        # return self.partial_update(request, *args, **kwargs)
 class PropertySearchView(generics.ListAPIView):
     serializer_class = PropertySerializer
     queryset = Property.objects.all()

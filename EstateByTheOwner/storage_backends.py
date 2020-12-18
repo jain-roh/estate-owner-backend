@@ -9,13 +9,21 @@ class StaticStorage(S3Boto3Storage):
 
 class PublicMediaStorage(S3Boto3Storage):
     location = 'media'
+    location = 'private/property'
     default_acl = 'public-read'
     file_overwrite = False
+    custom_domain = False
 
 class PrivateMediaStorage(S3Boto3Storage):
     location = 'private/property'
     default_acl = 'private'
     file_overwrite = False
+    custom_domain = False
+
+class PrivateMediaProfileStorage(S3Boto3Storage):
+    location = 'private/property'
+    default_acl = 'private'
+    file_overwrite = True
     custom_domain = False
 
 class ThumbnailStorage(S3Boto3Storage):

@@ -17,7 +17,24 @@ class PropertyImageSerializer(serializers.Serializer):
         # user = User.objects.get(pk=self.data['user_id'])
         return PropertyImages.objects.create(**validated_data)
 
+class PropertyImageUpdateSerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
+    display=serializers.BooleanField(default=True)
+    class Meta:
+        model = PropertyImages
+        fields = '__all__'
+    def create(self, validated_data):
+        # user = User.objects.get(pk=self.data['user_id'])
+        return PropertyImages.objects.create(**validated_data)
+    def update(self,instance,validated_data):
+        prop = PropertyImages.objects.get(pk=instance.id)
+        PropertyImages.objects.filter(pk=instance.id) \
+            .update(**validated_data)
+        # print(validated_data)
+        # instance.property_image=validated_data.get('property_image')
+        # instance.save()
 
+        return prop
 
 class PropertySerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
@@ -44,7 +61,7 @@ class PropertySerializer(serializers.Serializer):
     propertytype = serializers.ChoiceField(
         choices=CHOICES,
         default='townhouse')
-    property_image = PropertyImageSerializer(read_only=True , many=True)
+    property_image = PropertyImageSerializer(many=True,read_only=True,allow_null=True)
     class Meta:
         model = Property
         fields = '__all__'
@@ -53,8 +70,16 @@ class PropertySerializer(serializers.Serializer):
         return Property.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        prop = Property.objects.get(pk=instance.id)
+        # prop = Property.objects.get(pk=instance.id)
+        # print(validated_data.get('video'))
+        #
+        if validated_data.get('video',None):
+            instance.video=validated_data.pop('video')
+            instance.save()
+
+
         Property.objects.filter(pk=instance.id) \
             .update(**validated_data)
+        prop = Property.objects.get(pk=instance.id)
         return prop
 

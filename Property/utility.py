@@ -31,7 +31,8 @@ def upload_property_image(files,id):
     #     new_file.seek(0)
     for upfile in files:
         upfile.name=generate_file_name(upfile.name)
-        pf = PropertyImageSerializer(data={'file': upfile, 'property': id,})
+        print(upfile.name)
+        pf = PropertyImageSerializer(data={'file': upfile, 'property': id,'display':True})
         if pf.is_valid():
             pf.save()
             images.append(pf.data)
