@@ -11,7 +11,6 @@ class UserLogin(generics.ListCreateAPIView):
     def post(self, request):
         return create_jwt(request)
 
-
 class CreateUser(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()

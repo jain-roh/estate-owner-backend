@@ -22,8 +22,9 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         try:
             if not request.user2:
                 return Response({'Invalid Token'},status=400)
-            elif int(request.user2['id'])!=int(request.data['user']):
-                return Response({'Invalid Token'}, status=400)
+            # elif int(request.user2['id'])!=int(request.data['user']):
+            #     return Response({'Invalid Token'}, status=400)
+            request.data['user']=request.user2['id']
             file_list=request.FILES.getlist('images',[])
             serializer = PropertySerializer(data=request.data)
             if serializer.is_valid():
@@ -45,14 +46,15 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
     def put(self,request,*args, **kwargs):
         if not request.user2:
             return Response({'Invalid Token'}, status=400)
-        elif int(request.user2['id']) != int(request.data['user']):
-            return Response({'Invalid Token'}, status=400)
+        # elif int(request.user2['id']) != int(request.data['user']):
+        #     return Response({'Invalid Token'}, status=400)
+        # request.data['user'] = request.user2['id']
 
         images=request.data.pop('images', [])
 
         property_image = request.data.pop('property_image', [])
         for prop_img in property_image:
-            prop_img_obj=PropertyImages.objects.get(id=prop_img.get('id'))
+            prop_img_obj=PropertyImages.objects.get(id=prop_img.get('id'),user=request.user2['id'])
             prop_img_serializer=PropertyImageUpdateSerializer(prop_img_obj,{'display':prop_img.get('display')})
             if prop_img_serializer.is_valid():
                 prop_img_serializer.save()
