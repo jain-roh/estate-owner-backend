@@ -52,16 +52,8 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
 
         images=request.data.pop('images', [])
 
-        property_image = request.data.pop('property_image', [])
-        for prop_img in property_image:
-            prop_img_obj=PropertyImages.objects.get(id=prop_img.get('id'),user=request.user2['id'])
-            prop_img_serializer=PropertyImageUpdateSerializer(prop_img_obj,{'display':prop_img.get('display')})
-            if prop_img_serializer.is_valid():
-                prop_img_serializer.save()
-            else:
-                return Response(prop_img_serializer.errors, status=400)
         # request.data._mutable = False
-        prop = Property.objects.get(id=request.data['id'])
+        prop = Property.objects.get(id=request.data['id'],user=request.user2['id'])
 
         serializer = PropertySerializer(prop,request.data)
         if serializer.is_valid():
@@ -71,6 +63,15 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
             return Response({'property':serializer.data,'images':images_res}, status=200)
         else:
             return Response(serializer.errors, status=400)
+
+        property_image = request.data.pop('property_image', [])
+        for prop_img in property_image:
+            prop_img_obj=PropertyImages.objects.get(id=prop_img.get('id'))
+            prop_img_serializer=PropertyImageUpdateSerializer(prop_img_obj,{'display':prop_img.get('display')})
+            if prop_img_serializer.is_valid():
+                prop_img_serializer.save()
+            else:
+                return Response(prop_img_serializer.errors, status=400)
 
         return Response(serializer.errors, status=400)
         # return self.partial_update(request, *args, **kwargs)
