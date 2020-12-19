@@ -27,14 +27,16 @@ class PropertyImageUpdateSerializer(serializers.Serializer):
         # user = User.objects.get(pk=self.data['user_id'])
         return PropertyImages.objects.create(**validated_data)
     def update(self,instance,validated_data):
-        prop = PropertyImages.objects.get(pk=instance.id)
-        PropertyImages.objects.filter(pk=instance.id) \
-            .update(**validated_data)
+        # prop = PropertyImages.objects.get(pk=instance.id)
+        instance.display=validated_data['display']
+        instance.save()
+        # PropertyImages.objects.filter(pk=instance.id) \
+        #     .update(**validated_data)
         # print(validated_data)
         # instance.property_image=validated_data.get('property_image')
         # instance.save()
 
-        return prop
+        return instance
 
 class PropertySerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
