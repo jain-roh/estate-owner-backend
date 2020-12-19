@@ -71,28 +71,32 @@ def update_user(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     is_staff = request.user2['is_staff']
-    if is_staff is None:
-        return HttpResponse({'error': 'Please verify weather user is Buyer or Seller'}, statusx=400)
-    if not is_staff:
-        obj=Buyer.objects.get(id=request.user2['id'])
-        serializer = BuyerUpdateSerializer(obj,request.data)
-        if serializer.is_valid():
-            serializer.save()
-            data = serializer.data
-            data.pop('password', None)
-            return tokenize(data, ip)
-        return HttpResponse(serializer.errors, status=400)
-    elif is_staff:
-        obj = Seller.objects.get(id=request.user2['id'])
-        serializer = SellerUpdateSerializer(obj,request.data)
-        if serializer.is_valid():
-            serializer.save()
-            data = serializer.data
-            print(data)
-            data.pop('password', None)
-            return tokenize(data, ip)
-        print(serializer.errors)
-        return HttpResponse(serializer.errors, status=400)
+    print(is_staff)
+    try:
+        if is_staff is None:
+            return HttpResponse({'error': 'Please verify weather user is Buyer or Seller'}, statusx=400)
+        if not is_staff:
+            obj=Buyer.objects.get(id=request.user2['id'])
+            serializer = BuyerUpdateSerializer(obj,request.data)
+            if serializer.is_valid():
+                serializer.save()
+                data = serializer.data
+                data.pop('password', None)
+                return tokenize(data, ip)
+            return HttpResponse(serializer.errors, status=400)
+        elif is_staff:
+            obj = Seller.objects.get(id=request.user2['id'])
+            serializer = SellerUpdateSerializer(obj,request.data)
+            if serializer.is_valid():
+                serializer.save()
+                data = serializer.data
+                print(data)
+                data.pop('password', None)
+                return tokenize(data, ip)
+            print(serializer.errors)
+            return HttpResponse(serializer.errors, status=400)
+    except Exception  as e:
+        print(e)
 
 
 def create_user(request):
