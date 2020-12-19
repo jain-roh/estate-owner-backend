@@ -62,11 +62,13 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         property_data={}
         prop = Property.objects.get(id=int(request.data['id']),user=request.user2['id'])
         serializer = PropertyUpdateSerializer(prop,request.data)
+
         if serializer.is_valid():
             serializer.save()
             property_data=serializer.data
             print(property_data)
             images_res = upload_property_image(images, serializer.data['id'])
+            print(images_res)
         else:
             print(serializer.errors)
             return Response(serializer.errors, status=400)
@@ -79,7 +81,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
             prop_img_obj.display=prop_img['display']
             prop_img_obj.save()
 
-            prop_img_serializer=PropertyImageUpdateSerializer(prop_img_obj)
+            # prop_img_serializer=PropertyImageUpdateSerializer(prop_img_obj)
             # print(prop_img_serializer)
 
             # if prop_img_serializer.is_valid():
