@@ -74,8 +74,10 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
 
             prop_img=json.loads(prop_img)
             prop_img_obj=PropertyImages.objects.get(id=prop_img.get('id'))
-            print(prop_img_obj)
-            prop_img_serializer=PropertyImageUpdateSerializer(prop_img_obj,{'display':prop_img.get('display')})
+            print(prop_img['display'])
+            prop_img_serializer=PropertyImageUpdateSerializer(prop_img_obj,{'display':prop_img['display']})
+            print(prop_img_serializer)
+
             if prop_img_serializer.is_valid():
                 prop_img_serializer.save()
 
