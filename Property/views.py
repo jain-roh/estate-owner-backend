@@ -56,7 +56,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         request.data._mutable = True
 
         images=request.data.pop('images', [])
-        property_image = json.loads(request.data.pop('property_image', '[]'))
+        property_image = json.load(request.data.pop('property_image', '[]'))
         request.data._mutable = _mutable
         # request.data._mutable = False
 
