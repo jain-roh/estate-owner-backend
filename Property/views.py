@@ -79,12 +79,12 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
             prop_img_serializer=PropertyImageUpdateSerializer(prop_img_obj)
             # print(prop_img_serializer)
 
-            if prop_img_serializer.is_valid():
+            # if prop_img_serializer.is_valid():
             # prop_img_serializer.display
-                prop_img_serializer.save()
-            else:
-                print(prop_img_serializer.errors)
-                return Response(prop_img_serializer.errors, status=400)
+            prop_img_serializer.save()
+            # else:
+            #     print(prop_img_serializer.errors)
+            #     return Response(prop_img_serializer.errors, status=400)
         return Response({'property': property_data, 'images': images_res}, status=200)
         # return self.partial_update(request, *args, **kwargs)
 class PropertySearchView(generics.ListAPIView):
