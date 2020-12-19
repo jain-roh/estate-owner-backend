@@ -44,7 +44,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         return Response({'property':serializer.data,'images':serializer2.data}, status=status.HTTP_200_OK)
 
     def put(self,request,*args, **kwargs):
-        print(resquest.user2)
+        print(request.user2)
         print(request.data)
         if not request.user2:
             return Response({'Invalid Token'}, status=400)
