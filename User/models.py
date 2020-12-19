@@ -25,3 +25,4 @@ class Buyer(User):
     def save(self, *args, **kwargs):
         if self.profile_pic:
             self.profile_pic = make_thumbnail(self.profile_pic, size=(350, 300))
+        super().save(*args, **kwargs)

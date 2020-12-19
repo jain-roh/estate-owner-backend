@@ -40,10 +40,14 @@ class BuyerSerializer(UserSerializer):
         buyr = Buyer.objects.create(**validated_data)
         try:
             buyr.set_password(pwd)
+
             buyr.save()
+            print(buyr)
 
         except Exception as e:
+            print(e)
             buyr.delete()
+
         return buyr
     def update(self, instance,validated_data):
         # user = User.objects.get(pk=self.data['user_id'])

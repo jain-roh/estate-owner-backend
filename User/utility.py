@@ -111,6 +111,7 @@ def create_user(request):
             serializer.save()
             data=serializer.data
             data.pop('password',None)
+            print(data)
             return tokenize(data,ip)
         return HttpResponse(serializer.errors, status=400)
     elif is_staff=='True':
