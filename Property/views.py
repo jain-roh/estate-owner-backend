@@ -40,7 +40,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         propObj=Property.objects.get(pk=kwargs['pk'])
         serializer=PropertySerializer(propObj)
         prop=PropertyImages.objects.filter(property=kwargs['pk'],display=True)
-        serializer2=PropertySerializer(propImage,many=True)
+        serializer2=PropertyImageSerializer(prop,many=True)
         return Response({'property':serializer.data,'images':serializer2.data}, status=status.HTTP_200_OK)
 
     def put(self,request,*args, **kwargs):
@@ -76,7 +76,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         for prop_img in property_image:
 
             prop_img=json.loads(prop_img)
-            prop_img_obj=PropertyImages.objects.get(id=prop_img.get('id'), display=True)
+            prop_img_obj=PropertyImages.objects.get(id=prop_img.get('id'))
             print(prop_img['display'])
             prop_img_obj.display=prop_img['display']
             prop_img_obj.save()

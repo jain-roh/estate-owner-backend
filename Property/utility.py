@@ -12,7 +12,6 @@ import uuid
 
 def search_property(request):
     property_list = Property.objects.all()
-    print(request.data)
     property_filter = PropertyFilter(request.GET, queryset=property_list)
     print(property_filter.qs)
     ids=property_filter.qs.values_list('id', flat=True)

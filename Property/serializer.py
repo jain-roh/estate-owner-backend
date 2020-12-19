@@ -63,10 +63,15 @@ class PropertySerializer(serializers.Serializer):
     propertytype = serializers.ChoiceField(
         choices=CHOICES,
         default='townhouse')
-    property_image = PropertyImageSerializer(many=True,read_only=True,allow_null=True)
+    property_image =serializers. SerializerMethodField(source='get_property_image')
     class Meta:
         model = Property
         fields = '__all__'
+    def get_property_image(self, obj):
+
+        prop_img=PropertyImages.objects.filter(property=obj.id,display=True)
+        return PropertyImageSerializer(prop_img,many=True).data
+
 
     def create(self, validated_data):
         return Property.objects.create(**validated_data)
