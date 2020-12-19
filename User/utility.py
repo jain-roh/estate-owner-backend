@@ -72,7 +72,9 @@ def update_user(request):
         ip = request.META.get('REMOTE_ADDR')
     is_staff = request.user2['is_staff']
     print(is_staff)
+
     try:
+        print(request.data)
         if is_staff is None:
             return HttpResponse({'error': 'Please verify weather user is Buyer or Seller'}, statusx=400)
         if not is_staff:
