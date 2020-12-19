@@ -76,7 +76,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         for prop_img in property_image:
 
             prop_img=json.loads(prop_img)
-            prop_img_obj=PropertyImages.objects.get(id=prop_img.get('id'))
+            prop_img_obj=PropertyImages.objects.get(id=prop_img.get('id'), display=True)
             print(prop_img['display'])
             prop_img_obj.display=prop_img['display']
             prop_img_obj.save()
