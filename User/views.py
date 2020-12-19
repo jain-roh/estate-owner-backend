@@ -17,7 +17,8 @@ class CreateUser(generics.ListCreateAPIView):
     def post(self, request):
         return create_user(request)
     def put(self,request,*args, **kwargs):
-        print('I am here')
+        if not request.user2:
+            return Response({'Invalid Token'}, status=400)
         return update_user(request)
     def get(self,request):
         if not request.user2:

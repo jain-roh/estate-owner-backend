@@ -70,11 +70,11 @@ def update_user(request):
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
-    is_staff = request.data['is_staff']
+    is_staff = request.user2['is_staff']
     if is_staff is None:
         return HttpResponse({'error': 'Please verify weather user is Buyer or Seller'}, statusx=400)
     if not is_staff:
-        obj=Buyer.objects.get(id=request.data['id'])
+        obj=Buyer.objects.get(id=request.user2['id'])
         serializer = BuyerUpdateSerializer(obj,request.data)
         if serializer.is_valid():
             serializer.save()
@@ -83,7 +83,7 @@ def update_user(request):
             return tokenize(data, ip)
         return HttpResponse(serializer.errors, status=400)
     elif is_staff:
-        obj = Seller.objects.get(id=request.data['id'])
+        obj = Seller.objects.get(id=request.user2['id'])
         serializer = SellerUpdateSerializer(obj,request.data)
         if serializer.is_valid():
             serializer.save()

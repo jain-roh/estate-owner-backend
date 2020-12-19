@@ -14,7 +14,7 @@ class Seller(User):
     phone_number=models.BigIntegerField(null=True,default=None)
     def save(self, *args, **kwargs):
         if self.profile_pic:
-            self.profile_pic = make_thumbnail(self.profile_pic, size=(350, 300))
+            self.profile_pic = make_thumbnail(self.profile_pic, size=(350, 300),name=str(self.id))
 
         super().save(*args, **kwargs)
 class Buyer(User):
@@ -24,5 +24,5 @@ class Buyer(User):
 
     def save(self, *args, **kwargs):
         if self.profile_pic:
-            self.profile_pic = make_thumbnail(self.profile_pic, size=(350, 300))
+            self.profile_pic = make_thumbnail(self.profile_pic, size=(350, 300),name=str(self.id))
         super().save(*args, **kwargs)
