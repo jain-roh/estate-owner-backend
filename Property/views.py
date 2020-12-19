@@ -49,8 +49,11 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         # elif int(request.user2['id']) != int(request.data['user']):
         #     return Response({'Invalid Token'}, status=400)
         # request.data['user'] = request.user2['id']
+        _mutable = request.data._mutable
+        request.data._mutable = True
 
         images=request.data.pop('images', [])
+        request.data._mutable = _mutable
         # request.data._mutable = False
         prop = Property.objects.get(id=int(request.data['id']),user=int(request.user2['id']))
         property_data={}
