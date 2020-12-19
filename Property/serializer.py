@@ -87,7 +87,6 @@ class PropertySerializer(serializers.Serializer):
 
 class PropertyUpdateSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
-    user=serializers.ReadOnlyField()
     address1 = serializers.CharField(max_length=200, allow_null=False)
     address2 = serializers.CharField(max_length=200, allow_null=True)
     city = serializers.CharField(max_length=200, allow_null=False)
