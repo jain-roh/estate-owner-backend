@@ -51,6 +51,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         # elif int(request.user2['id']) != int(request.data['user']):
         #     return Response({'Invalid Token'}, status=400)
         # request.data['user'] = request.user2['id']
+
         _mutable = request.data._mutable
         request.data._mutable = True
 
@@ -66,6 +67,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
             property_data=serializer.data
             images_res = upload_property_image(images, serializer.data['id'])
         else:
+            print(serializer.errors)
             return Response(serializer.errors, status=400)
 
         for prop_img in property_image:
@@ -75,6 +77,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
                 prop_img_serializer.save()
 
             else:
+                print(prop_img_serializer.errors)
                 return Response(prop_img_serializer.errors, status=400)
         return Response({'property': property_data, 'images': images_res}, status=200)
         # return self.partial_update(request, *args, **kwargs)
