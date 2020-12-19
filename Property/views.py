@@ -14,7 +14,7 @@ from .models import Property,PropertyImages
 from rest_framework.mixins import UpdateModelMixin
 from django.db import transaction
 import copy
-
+import json
 class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
     serializer_class = PropertySerializer
     queryset = Property.objects.all()
@@ -56,7 +56,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         request.data._mutable = True
 
         images=request.data.pop('images', [])
-        property_image = request.data.pop('property_image', [])
+        property_image = json.parse(request.data.pop('property_image', []))
         request.data._mutable = _mutable
         # request.data._mutable = False
 
