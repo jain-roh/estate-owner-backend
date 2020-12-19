@@ -9,7 +9,7 @@ from rest_framework import status
 from django.views import generic
 from django.contrib.auth.models import User
 from .utility import search_property,upload_property_image,generate_file_name
-from .serializer import PropertySerializer,PropertyImageSerializer,PropertyImageUpdateSerializer
+from .serializer import PropertySerializer,PropertyImageSerializer,PropertyImageUpdateSerializer,PropertyUpdateSerializer
 from .models import Property,PropertyImages
 from rest_framework.mixins import UpdateModelMixin
 from django.db import transaction
@@ -59,8 +59,9 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         property_image = request.data.pop('property_image', [])
         request.data._mutable = _mutable
         # request.data._mutable = False
-        prop = Property.objects.get(id=int(request.data['id']),user=int(request.user2['id']))
-        serializer = PropertySerializer(prop,request.data)
+
+        prop = Property.objects.get(id=int(request.data['id']),user=request.user2['id'])
+        serializer = PropertyUpdateSerializer(prop,request.data)
         if serializer.is_valid():
             serializer.save()
             # self.perform_update(serializer)
