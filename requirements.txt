@@ -1,4 +1,6 @@
-Django==1.11.29
+Django
+wheel
+psycopg2-binary
 django-cors-headers==3.0.2
 django-restframework==0.0.1
 djangorestframework==3.9.4

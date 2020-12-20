@@ -21,8 +21,8 @@ class PrivateMediaStorage(S3Boto3Storage):
     custom_domain = False
 
 class PrivateMediaProfileStorage(S3Boto3Storage):
-    location = 'private/property'
-    default_acl = 'private'
+    location = 'private/profile'
+    default_acl = 'public-read'
     file_overwrite = True
     custom_domain = False
 

@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,6 +35,28 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
+
+
+config = {
+  "type": "service_account",
+  "project_id": "estate-by-the-owner",
+  "private_key_id": "5289190a7406ab1f711ae391c56da40734da1285",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCws9b1nJmnO5bP\nkgbU3LDJ01AAlenjd7L6q7JZ7jXU8f4QtLZjCYO1IN2EYLW+kYsJc8fPaVLQIg0/\nkw7THNeXQkjIniTc7xe9mLrRUim2t3hoGjCB2Xs7uCHybYemYhnhksu3buIJn+nA\nGQ5n7uEpj64ieDY8wHvK613ZLZvovz5Y4GaJbE/SAlJ5z7SiZdQXHg9XhcDxEsW8\nwo1FbsZkzgTK4PHnEdOFAG2ZxyDBF6zvhox8yKvZHlFtNU5ArbMx+NL3Q0xlsZ3k\n2Kkfe0lZro47PteG8EQ9BcKC6kGCWJgsnyvVifZJ3vyW3L/ooe1G6hDsr1oc8LEl\nARyBhu/jAgMBAAECggEAE7CLwg/nyeFd9gCI5QHia9rcDfSmfJjt8fiyhaAsPMTq\nUTo8czSwNGgBHFXFFVhqbGyLqz+f4V6p/ezeY1p8u3drXM93vsFK8pl+LQJBcQFo\nrVDzGW+pHQfGNe6hMEJmLTiKSAUBsvOFZx5jozkpuykuIjElpLIIw/JjdrvE+l4v\n36jj+B2zTS2j2vkm7HmSOGLAybpmY0GjN6m9edrwyoD6XNtw/6/lqJfKMlMt1BJa\noN29NcDCxfi5bqtxpcEWEbAY+EtopIFDGPxLl25s8ny6rOEQ7LP+rBxj9yEtgbIT\nfJCT8+Y4coV3H2FswKIomq8TLDyZ6DI8m6O5IpM6wQKBgQDz+FUVQ1efVf8j2eRG\nQ6xoNfB5jHVGILrP3suxN5Q3jfBBLSEfJtqPVqJT99dQvOa1FRX9JJmGG3jhPceB\nx4EEuReJsidgJMy4QqoD7LawZwJc3nJpk/no8S8ww0WX90qexpW23uQDP6sQSm9c\nna1/iOLbt76S4q9dB529zHd1SQKBgQC5amE3h+1OpfPoid6OwE1PBMKxujgoocnr\n6ZG4E+pba6CYvLjXLM90Tp1iDbhHaz+kxnfrQUI++oVBL2XvZL8UjPMMTlm6bkJw\ng/ZNYbf20YVzWdzpnDnHZ36xmJMQvWjAGFntNgvVGYN3FuPHJxiQETz9AGljXGry\nUFL7xQh3ywKBgQC4yLB4yGbHcjUrDE/PwFYHIEOhbHcuxH96Dj+tXHFQmpsMYogh\ntiX4Rx/wBVn59vmu0eezslLttkUaJNbFPzxDPYXMbzlPos/ECAoJqvK8LWkmuf1i\nZgf1HSgnAN/nOBA2riabObrtkv2X+yjZtzu/ywg4brVTP4qfJbOeHA2msQKBgBJU\niP3jazt+Pom7r4vvSPVJ5DGL1md17y9qbOSE24NkNYFEDwX+wRefegGql5A/8w/I\nKyzPy8vMGoZiODKdhCJ0+MY7rLU4l0rmUOA/i99TwVyxApz5u+CRw72s9sUN5KAx\nCBriX/MWTZ/lXGlg3RXJDn14n/KZvVztQfbv+LFXAoGBAOiRcbbOJ2a2Jlhi0W7G\nmrr3Do9jZzwOHhrJmSEfsX1hTx7AsW5ck77J3cs61rH7fA7mA1P7+OZtswXBJsyr\nQ9YEiWgovFgP2JpI7TrKK+Lhd37UFdnALhDD8xVwQHnhw6WnbwOfoznUhZ//aeTO\n6fHZZUjQTHUQW0GOliNvr2iI\n-----END PRIVATE KEY-----\n",
+  "client_email": "estate-by-the-owner@appspot.gserviceaccount.com",
+  "client_id": "115824635908434911214",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/estate-by-the-owner%40appspot.gserviceaccount.com"
+}
+
+
+cred = credentials.Certificate(config)
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
+
 
 INSTALLED_APPS = [
 
