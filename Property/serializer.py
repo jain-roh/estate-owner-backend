@@ -104,7 +104,7 @@ class PropertyUpdateSerializer(serializers.Serializer):
     bath = serializers.FloatField(validators=[MinValueValidator(0, 99)], default=1.00)
     size = serializers.FloatField(validators=[MinValueValidator(10, 00)], default=1.00)
     description = serializers.CharField(max_length=1000, allow_null=True)
-    image_ico=serializers.ImageField(allow_null=True,default=None)
+    image_ico=serializers.ImageField(allow_null=True)
     video=serializers.FileField(allow_null=True,default=None)
     CHOICES = [('townhouse', 'Townhouse'),
                ('condo', 'Condo'),
