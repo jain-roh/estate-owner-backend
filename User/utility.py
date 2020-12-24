@@ -31,7 +31,9 @@ def create_jwt(request):
 
     if user is None:
         return HttpResponse({'error':'Wrong Username or Password'}, status=401)
-    print(is_staff)
+    print(type(is_staff))
+    print(type(user.is_staff))
+    print(user.is_staff))
     if not user.is_staff==is_staff:
         return HttpResponse({'error': 'Wrong Username or Password or '}, status=401)
     if user.is_staff:
