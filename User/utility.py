@@ -26,7 +26,7 @@ def create_jwt(request):
         ip = request.META.get('REMOTE_ADDR')
     username = request.POST['username']
     password = request.POST['password']
-    is_staff=request.data['is_staff']
+    is_staff=request.data['is_staff']!='False'
     user = authenticate(username=username, password=password)
 
     if user is None:
