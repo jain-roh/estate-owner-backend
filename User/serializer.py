@@ -187,19 +187,19 @@ class BuyerUpdateSerializer(UserUpdateSerializer):
     def update(self, instance,validated_data):
         # user = User.objects.get(pk=self.data['user_id'])
         # buyer = Buyer.objects.get(pk=instance.id)
-        instance.pop('profile_pic')
-        if validated_data.get('location'):
-            instance.location=validated_data.pop('location')
-        if validated_data.get('middle_name'):
-            instance.middle_name = validated_data.pop('middle_name')
-        if validated_data.get('email'):
-            instance.email = validated_data.pop('email')
-        if validated_data.get('first_name'):
-            instance.first_name = validated_data.pop('first_name')
-        if validated_data.get('last_name'):
-            instance.last_name = validated_data.pop('last_name')
+        # instance.pop('profile_pic')
+        # if validated_data.get('location'):
+        #     instance.location=validated_data.pop('location')
+        # if validated_data.get('middle_name'):
+        #     instance.middle_name = validated_data.pop('middle_name')
+        # if validated_data.get('email'):
+        #     instance.email = validated_data.pop('email')
+        # if validated_data.get('first_name'):
+        #     instance.first_name = validated_data.pop('first_name')
+        # if validated_data.get('last_name'):
+        #     instance.last_name = validated_data.pop('last_name')
         if validated_data.get('profile_pic'):
             instance.profile_pic = validated_data.pop('profile_pic')
-        instance.save()
-        user = Buyer.objects.get(pk=instance.id)
+            instance.save()
+        Buyer.objects.get(pk=instance.id).update(**validated_data)
         return user
