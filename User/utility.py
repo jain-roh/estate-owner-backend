@@ -31,6 +31,7 @@ def create_jwt(request):
 
     if user is None:
         return HttpResponse({'error':'Wrong Username or Password'}, status=401)
+    print(user.is_staff)
     if user.is_staff!=is_staff:
         return HttpResponse({'error': 'Wrong Username or Password or '}, status=401)
     if user.is_staff:
@@ -62,7 +63,6 @@ def fetch_user(request):
         serializer = SellerSerializer(obj)
         data = serializer.data
         data.pop('password', None)
-        print(data)
         return Response(data, status=200)
 def update_user(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
