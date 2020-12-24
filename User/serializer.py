@@ -135,6 +135,8 @@ class SellerUpdateSerializer(serializers.Serializer):
     last_name = serializers.CharField(max_length=50, min_length=2,allow_null=True)
     profile_pic=serializers.ImageField(allow_null=True,default='')
     email = serializers.EmailField()
+    is_staff=serializers.ReadOnlyField()
+    username=serializers.ReadOnlyField()
 
 
     class Meta:
@@ -181,6 +183,9 @@ class BuyerUpdateSerializer(serializers.Serializer):
     last_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
     profile_pic=serializers.ImageField(allow_null=True,default='')
     email = serializers.EmailField()
+    is_staff=serializers.ReadOnlyField()
+    username=serializers.ReadOnlyField()
+
     class Meta:
         model = Buyer
         fields = '__all__'

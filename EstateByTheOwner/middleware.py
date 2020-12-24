@@ -19,6 +19,7 @@ class ProcessViewNoneMiddleware(BaseMiddleware):
         # return None
         token=request.META.get('HTTP_AUTHORIZATION','').replace('Bearer','').strip()
         data=verify_token((token))
+        print(data)
         request.user2=data
 
 
