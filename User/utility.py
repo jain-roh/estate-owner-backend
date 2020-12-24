@@ -27,10 +27,12 @@ def create_jwt(request):
     username = request.POST['username']
     password = request.POST['password']
     is_staff=request.POST['is_staff']
-    user = authenticate(username=username, password=password,is_staff=is_staff)
+    user = authenticate(username=username, password=password)
 
     if user is None:
-        return HttpResponse({'error':'Wrong Username or Password'}, status=400)
+        return HttpResponse({'error':'Wrong Username or Password'}, status=401)
+    if user.is_staff!=is_staff:
+        return HttpResponse({'error': 'Wrong Username or Password or '}, status=401)
     if user.is_staff:
         user=Seller.objects.get(id=user.id)
         user=SellerSerializer(user)
@@ -44,7 +46,7 @@ def create_jwt(request):
 
 
 def fetch_user(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
 
     is_staff = request.user2['is_staff']
     if is_staff is None:
@@ -54,7 +56,6 @@ def fetch_user(request):
         serializer = BuyerSerializer(obj)
         data = serializer.data
         data.pop('password', None)
-        print(data)
         return Response(data, status=200)
     elif is_staff:
         obj = Seller.objects.get(id=request.user2['id'])

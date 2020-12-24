@@ -145,12 +145,6 @@ class SellerUpdateSerializer(UserUpdateSerializer):
         pwd = validated_data.pop('password')
         validated_data['is_staff'] = True
         sllr = Seller.objects.create(**validated_data)
-        # try:
-        #     sllr.set_password(pwd)
-        #     sllr.save()
-        #
-        # except Exception as e:
-        #     sllr.delete()
         print(sllr)
         return sllr
     def update(self, instance,validated_data):

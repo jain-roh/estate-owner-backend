@@ -13,6 +13,9 @@ from .serializer import AppointmentSerializer,AppointmentViewSerializer
 from .models import Appointment
 from rest_framework.mixins import UpdateModelMixin
 import json
+from django.db.models import Q
+from datetime import datetime
+
 
 class AppointmentView(generics.ListCreateAPIView,UpdateModelMixin):
     serializer_class = AppointmentSerializer
@@ -43,9 +46,11 @@ class AppointViewAll(generics.ListCreateAPIView):
             id = request.user2['id']
         appointment_obj=None
         if not bool(request.user2['is_staff']):
-            appointment_obj=Appointment.objects.filter(buyer=id)
+
+
+            appointment_obj=Appointment.objects.filter(Q(buyer=id,datetime__gte=datetime.now()),~Q(response='reject')).order_by('-datetime')
         elif bool(request.user2['is_staff']):
-            appointment_obj = Appointment.objects.filter(seller=id)
+            appointment_obj = Appointment.objects.filter(Q(seller=id,datetime__gte=datetime.now()),~Q(response='reject')).order_by('-datetime')
         serializer = AppointmentViewSerializer(appointment_obj,many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
