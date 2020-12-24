@@ -25,5 +25,8 @@ def make_thumbnail(image, size=(1000, 800),name=None):
     # im.thumbnail(size) # resize image
     thumb_io = BytesIO() # create a BytesIO object
     im.save(thumb_io, FTYPE) # save image to BytesIO object
+    print("name")
+
+    print(name)
     thumbnail = File(thumb_io, name=(str(name) if name else image.name)) # create a django friendly File object
     return thumbnail
