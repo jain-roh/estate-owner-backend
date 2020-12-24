@@ -186,6 +186,8 @@ class BuyerUpdateSerializer(UserUpdateSerializer):
 
     def update(self, instance,validated_data):
         # user = User.objects.get(pk=self.data['user_id'])
+        # buyer = Buyer.objects.get(pk=instance.id)
+        instance.pop('profile_pic')
         if validated_data.get('location'):
             instance.location=validated_data.pop('location')
         if validated_data.get('middle_name'):
