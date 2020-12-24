@@ -73,7 +73,6 @@ class BuyerSerializer(UserSerializer):
 class UserUpdateSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     username=serializers.ReadOnlyField()
-    email = serializers.ReadOnlyField()
     password = serializers.ReadOnlyField()
     is_staff=serializers.ReadOnlyField()
 
@@ -93,6 +92,7 @@ class SellerSerializer(UserSerializer):
     profile_pic=serializers.ImageField(allow_null=True,default=None)
     first_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
     last_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
+    email = serializers.EmailField()
 
     class Meta:
         model = Seller
@@ -109,7 +109,6 @@ class SellerSerializer(UserSerializer):
 
         except Exception as e:
             sllr.delete()
-        print(sllr)
         return sllr
     def update(self, instance,validated_data):
         # user = User.objects.get(pk=self.data['user_id'])
@@ -126,15 +125,17 @@ class SellerSerializer(UserSerializer):
         return instance
 
 
-class SellerUpdateSerializer(UserUpdateSerializer):
+class SellerUpdateSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
-    description = serializers.CharField(max_length=1000, allow_null=True,default=None)
-    location = serializers.CharField(allow_blank=True,allow_null=True,default=None)
+    description = serializers.CharField(max_length=1000, allow_null=True)
+    location = serializers.CharField(allow_blank=True,allow_null=True)
     middle_name = serializers.CharField(allow_null=True,default=None)
-    phone_number = serializers.IntegerField(allow_null=True,default=None)
-    first_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
-    last_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
-    profile_pic=serializers.ImageField(allow_null=True,read_only=True)
+    phone_number = serializers.IntegerField(allow_null=True)
+    first_name = serializers.CharField(max_length=50, min_length=2, allow_null=True)
+    last_name = serializers.CharField(max_length=50, min_length=2,allow_null=True)
+    profile_pic=serializers.ImageField(allow_null=True,default='')
+    email = serializers.EmailField()
+
 
     class Meta:
         model = Seller
@@ -147,6 +148,8 @@ class SellerUpdateSerializer(UserUpdateSerializer):
         sllr = Seller.objects.create(**validated_data)
         return sllr
     def update(self, instance,validated_data):
+
+
         # if validated_data.get('location'):
         #     instance.location=validated_data.pop('location')
         # if validated_data.get('middle_name'):
@@ -159,21 +162,25 @@ class SellerUpdateSerializer(UserUpdateSerializer):
         #     instance.first_name = validated_data.pop('first_name')
         # if validated_data.get('last_name'):
         #     instance.last_name = validated_data.pop('last_name')
-        if validated_data.get('profile_pic'):
-            instance.profile_pic = validated_data.pop('profile_pic')
+        image=validated_data.pop('profile_pic')
+
+        if image!='':
+            instance = Seller.objects.get(pk=instance.id)
+            instance.profile_pic = image
             instance.save()
+
         Seller.objects.filter(pk=instance.id).update(**validated_data)
         user = Seller.objects.get(pk=instance.id)
         return user
 
-class BuyerUpdateSerializer(UserUpdateSerializer):
+class BuyerUpdateSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     location = serializers.CharField(allow_blank=False,allow_null=True,default=None)
     middle_name = serializers.CharField(allow_null=True,default=None)
     first_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
     last_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
-    profile_pic=serializers.ImageField(allow_null=True,read_only=True)
-
+    profile_pic=serializers.ImageField(allow_null=True,default='')
+    email = serializers.EmailField()
     class Meta:
         model = Buyer
         fields = '__all__'
@@ -187,18 +194,26 @@ class BuyerUpdateSerializer(UserUpdateSerializer):
     def update(self, instance,validated_data):
         # user = User.objects.get(pk=self.data['user_id'])
         # buyer = Buyer.objects.get(pk=instance.id)
-        if validated_data.get('location'):
-            instance.location=validated_data.pop('location')
-        if validated_data.get('middle_name'):
-            instance.middle_name = validated_data.pop('middle_name')
-        if validated_data.get('email'):
-            instance.email = validated_data.pop('email')
-        if validated_data.get('first_name'):
-            instance.first_name = validated_data.pop('first_name')
-        if validated_data.get('last_name'):
-            instance.last_name = validated_data.pop('last_name')
-        if validated_data.get('profile_pic'):
-            instance.profile_pic = validated_data.pop('profile_pic')
-        instance.save()
+        # if validated_data.get('location'):
+        #     instance.location=validated_data.pop('location')
+        # if validated_data.get('middle_name'):
+        #     instance.middle_name = validated_data.pop('middle_name')
+        # if validated_data.get('email'):
+        #     instance.email = validated_data.pop('email')
+        # if validated_data.get('first_name'):
+        #     instance.first_name = validated_data.pop('first_name')
+        # if validated_data.get('last_name'):
+        #     instance.last_name = validated_data.pop('last_name')
+        # if validated_data.get('profile_pic'):
+        #     instance.profile_pic = validated_data.pop('profile_pic')
+        # instance.save()
+        image=validated_data.pop('profile_pic')
+
+        if image!='':
+            instance = Buyer.objects.get(pk=instance.id)
+            instance.profile_pic = image
+            instance.save()
+
+        Buyer.objects.filter(pk=instance.id).update(**validated_data)
         user = Buyer.objects.get(pk=instance.id)
         return user

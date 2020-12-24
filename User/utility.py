@@ -73,10 +73,8 @@ def update_user(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     is_staff = request.user2['is_staff']
-    print(is_staff)
 
     try:
-        print(request.data)
         if is_staff is None:
             return HttpResponse({'error': 'Please verify weather user is Buyer or Seller'}, statusx=400)
         if not is_staff:
@@ -85,11 +83,14 @@ def update_user(request):
             if serializer.is_valid():
                 serializer.save()
                 data = serializer.data
+                profile_pic=data.get('profile_pic',None)
+                if not profile_pic:
+                    profile_pic=''
                 doc_ref = db.collection(u'chat_users').where('ids', 'array_contains', data.get('id')).get()
                 for doc in doc_ref:
                     db.collection(u'chat_users').document(u''+str(doc.id)).update({u''+str(data.get('id')): {
                         u'name': u''+data.get('first_name', '') + ' ' + data.get('last_name', ''),
-                        u'avatar': u''+data.get('profile_pic', '')
+                        u'avatar': u''+profile_pic
                     }});
                 data.pop('password', None)
                 return tokenize(data, ip)
@@ -97,15 +98,19 @@ def update_user(request):
         elif is_staff:
             obj = Seller.objects.get(id=request.user2['id'])
             serializer = SellerUpdateSerializer(obj,request.data)
+
             if serializer.is_valid():
                 serializer.save()
                 data = serializer.data
+                profile_pic=data.get('profile_pic',None)
+                if not profile_pic:
+                    profile_pic=''
 
                 doc_ref = db.collection(u'chat_users').where('ids', 'array_contains', data.get('id')).get()
                 for doc in doc_ref:
                     db.collection(u'chat_users').document(u''+str(doc.id)).update({u''+str(data.get('id')): {
                         u'name': u''+data.get('first_name', '') + ' ' + data.get('last_name', ''),
-                        u'avatar': u''+data.get('profile_pic', '')
+                        u'avatar': u''+profile_pic
                     }});
                 data.pop('password', None)
                 return tokenize(data, ip)
