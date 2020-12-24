@@ -134,7 +134,7 @@ class SellerUpdateSerializer(UserUpdateSerializer):
     phone_number = serializers.IntegerField(allow_null=True,default=None)
     first_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
     last_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
-    profile_pic=serializers.ImageField(allow_null=True,default=None)
+    profile_pic=serializers.ImageField(allow_null=True)
 
     class Meta:
         model = Seller
@@ -145,10 +145,8 @@ class SellerUpdateSerializer(UserUpdateSerializer):
         pwd = validated_data.pop('password')
         validated_data['is_staff'] = True
         sllr = Seller.objects.create(**validated_data)
-        print(sllr)
         return sllr
     def update(self, instance,validated_data):
-        # user = User.objects.get(pk=self.data['user_id'])
         print(instance)
         if validated_data.get('location'):
             instance.location=validated_data.pop('location')
@@ -174,7 +172,7 @@ class BuyerUpdateSerializer(UserUpdateSerializer):
     middle_name = serializers.CharField(allow_null=True,default=None)
     first_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
     last_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
-    profile_pic=serializers.ImageField(allow_null=True,default=None)
+    profile_pic=serializers.ImageField(allow_null=True)
 
     class Meta:
         model = Buyer
@@ -184,12 +182,6 @@ class BuyerUpdateSerializer(UserUpdateSerializer):
         pwd = validated_data.pop('password')
         validated_data['is_staff'] = False
         buyr = Buyer.objects.create(**validated_data)
-        # try:
-        #     buyr.set_password(pwd)
-        #     buyr.save()
-        #
-        # except Exception as e:
-        #     buyr.delete()
         return buyr
 
     def update(self, instance,validated_data):
