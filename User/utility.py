@@ -83,22 +83,12 @@ def update_user(request):
             if serializer.is_valid():
                 serializer.save()
                 data = serializer.data
-                # batch = db.batch()
                 doc_ref = db.collection(u'chat_users').where('ids', 'array_contains', data.get('id')).get()
-                batch = db.batch()
                 for doc in doc_ref:
-                    print(doc.id)
                     db.collection(u'chat_users').document(u''+str(doc.id)).update({u''+str(data.get('id')): {
                         u'name': u''+data.get('first_name', '') + ' ' + data.get('last_name', ''),
                         u'avatar': u''+data.get('profile_pic', '')
                     }});
-
-                # doc_ref.set({
-                #     u'first': u'Ada',
-                #     u'last': u'Lovelace',
-                #     u'born': 1815
-                # })
-
                 data.pop('password', None)
                 return tokenize(data, ip)
             return HttpResponse(serializer.errors, status=400)
@@ -110,14 +100,11 @@ def update_user(request):
                 data = serializer.data
 
                 doc_ref = db.collection(u'chat_users').where('ids', 'array_contains', data.get('id')).get()
-                batch = db.batch()
                 for doc in doc_ref:
-                    print(doc.id)
                     db.collection(u'chat_users').document(u''+str(doc.id)).update({u''+str(data.get('id')): {
                         u'name': u''+data.get('first_name', '') + ' ' + data.get('last_name', ''),
                         u'avatar': u''+data.get('profile_pic', '')
                     }});
-                print(data)
                 data.pop('password', None)
                 return tokenize(data, ip)
             print(serializer.errors)
