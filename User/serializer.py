@@ -163,7 +163,7 @@ class SellerUpdateSerializer(serializers.Serializer):
         # if validated_data.get('last_name'):
         #     instance.last_name = validated_data.pop('last_name')
         image=validated_data.pop('profile_pic')
-
+        print(validated_data)
         if image!='':
             instance = Seller.objects.get(pk=instance.id)
             instance.profile_pic = image
