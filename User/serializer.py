@@ -134,7 +134,7 @@ class SellerUpdateSerializer(UserUpdateSerializer):
     phone_number = serializers.IntegerField(allow_null=True,default=None)
     first_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
     last_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
-    profile_pic=serializers.ImageField(allow_null=True)
+    profile_pic=serializers.ImageField(allow_null=True,read_only=True)
 
     class Meta:
         model = Seller
@@ -172,7 +172,7 @@ class BuyerUpdateSerializer(UserUpdateSerializer):
     middle_name = serializers.CharField(allow_null=True,default=None)
     first_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
     last_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
-    profile_pic=serializers.ImageField(allow_null=True)
+    profile_pic=serializers.ImageField(allow_null=True,read_only=True)
 
     class Meta:
         model = Buyer
