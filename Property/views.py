@@ -61,7 +61,7 @@ class PropertyView(generics.ListCreateAPIView,UpdateModelMixin):
         # request.data._mutable = False
         property_data={}
         prop = Property.objects.get(id=int(request.data['id']),user=request.user2['id'])
-        serializer = PropertyUpdateSerializer(prop,request.data)
+        serializer = PropertyUpdateSerializer(prop,request.data,partial=True)
 
         if serializer.is_valid():
             serializer.save()
