@@ -10,6 +10,7 @@ from .models import Buyer,Seller
 from django.core import serializers
 from django.conf import settings
 from rest_framework.response import Response
+from firebase_admin import firestore
 
 from EstateByTheOwner.settings import db
 
@@ -90,7 +91,8 @@ def update_user(request):
                 for doc in doc_ref:
                     db.collection(u'chat_users').document(u''+str(doc.id)).update({u''+str(data.get('id')): {
                         u'name': u''+data.get('first_name', '') + ' ' + data.get('last_name', ''),
-                        u'avatar': u''+profile_pic
+                        u'avatar': u''+profile_pic,
+                        u'unread':firestore.Increment(50)
                     }});
                 data.pop('password', None)
                 return tokenize(data, ip)
@@ -116,7 +118,8 @@ def update_user(request):
                 for doc in doc_ref:
                     db.collection(u'chat_users').document(u''+str(doc.id)).update({u''+str(data.get('id')): {
                         u'name': u''+data.get('first_name', '') + ' ' + data.get('last_name', ''),
-                        u'avatar': u''+profile_pic
+                        u'avatar': u''+profile_pic,
+                        u'unread':firestore.Increment(0)
                     }});
                 data.pop('password', None)
                 return tokenize(data, ip)
