@@ -76,12 +76,9 @@ def update_user(request):
         if is_staff is None:
             return HttpResponse({'error': 'Please verify weather user is Buyer or Seller'}, statusx=400)
         if not is_staff:
+            print(request.data)
             obj=Buyer.objects.get(id=request.user2['id'])
-            # if request.data['profile_pic']:
-            #     request.data._mutable = True
-            #     request.data['profile_pic']=None
-            #     request.data._mutable = False
-            print(request.data['profile_pic'])
+            print(obj)
             serializer = BuyerUpdateSerializer(obj,request.data)
 
             if serializer.is_valid():

@@ -216,6 +216,7 @@ class BuyerUpdateSerializer(serializers.Serializer):
             instance = Buyer.objects.get(pk=instance.id)
             instance.profile_pic = image
             instance.save()
+        print(validated_data)
 
         Buyer.objects.filter(pk=instance.id).update(**validated_data)
         user = Buyer.objects.get(pk=instance.id)
