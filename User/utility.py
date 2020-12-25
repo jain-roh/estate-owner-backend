@@ -135,28 +135,31 @@ def create_user(request):
     is_staff=request.POST['is_staff']
     if is_staff is None:
         return HttpResponse({'error':'Please verify weather user is Buyer or Seller'},statusx=400)
-    
-    if is_staff=='False':
-        serializer = BuyerSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            data=serializer.data
-            data.pop('password',None)
-            print(data)
-            return tokenize(data,ip)
-        return HttpResponse(serializer.errors, status=400)
-    elif is_staff=='True':
-        serializer = SellerSerializer(data=request.data)
+    print(is_staff)
+    try:
+        if is_staff=='False':
+            serializer = BuyerSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                data=serializer.data
+                data.pop('password',None)
+                print(data)
+                return tokenize(data,ip)
+            return HttpResponse(serializer.errors, status=400)
+        elif is_staff=='True':
+            serializer = SellerSerializer(data=request.data)
 
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            data=serializer.data
-            print(data)
-            data.pop('password',None)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                data=serializer.data
+                print(data)
+                data.pop('password',None)
 
-            return tokenize(data,ip)
-        print(serializer.errors)
-        return HttpResponse(serializer.errors, status=400)
+                return tokenize(data,ip)
+            print(serializer.errors)
+            return HttpResponse(serializer.errors, status=400)
+    except Exception as e:
+        print(e)
 
 
 
