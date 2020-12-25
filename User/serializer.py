@@ -166,6 +166,7 @@ class SellerUpdateSerializer(serializers.Serializer):
         #     instance.last_name = validated_data.pop('last_name')
         if validated_data.get('profile_pic'):
             image=validated_data.pop('profile_pic')
+            print(image)
             instance = Seller.objects.get(pk=instance.id)
             instance.profile_pic = image
             instance.save()
@@ -215,6 +216,7 @@ class BuyerUpdateSerializer(serializers.Serializer):
 
         if validated_data.get('profile_pic'):
             image=validated_data.pop('profile_pic')
+            print(image)
             instance = Buyer.objects.get(pk=instance.id)
             instance.profile_pic = image
             instance.save()
