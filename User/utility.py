@@ -78,9 +78,8 @@ def update_user(request):
         if not is_staff:
             print(request.data)
             obj=Buyer.objects.get(id=request.user2['id'])
-            print(obj)
-            serializer = BuyerUpdateSerializer(obj,request.data)
 
+            serializer = BuyerUpdateSerializer(obj,request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 data = serializer.data
@@ -103,7 +102,9 @@ def update_user(request):
             #     request.data['profile_pic']=None
             #     request.data._mutable = False
             # print(request.data['profile_pic'])
-            serializer = SellerUpdateSerializer(obj,request.data)
+            serializer = SellerUpdateSerializer(obj,request.data,partial=True)
+            print('Data')
+            print(serializer.initial_data)
 
             if serializer.is_valid():
                 serializer.save()
@@ -111,7 +112,6 @@ def update_user(request):
                 profile_pic=data.get('profile_pic',None)
                 if not profile_pic:
                     profile_pic=''
-
                 doc_ref = db.collection(u'chat_users').where('ids', 'array_contains', data.get('id')).get()
                 for doc in doc_ref:
                     db.collection(u'chat_users').document(u''+str(doc.id)).update({u''+str(data.get('id')): {

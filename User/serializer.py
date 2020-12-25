@@ -133,7 +133,7 @@ class SellerUpdateSerializer(serializers.Serializer):
     phone_number = serializers.IntegerField(allow_null=True)
     first_name = serializers.CharField(max_length=50, min_length=2, allow_null=True)
     last_name = serializers.CharField(max_length=50, min_length=2,allow_null=True)
-    profile_pic=serializers.ImageField(allow_null=True,default=None)
+    profile_pic=serializers.ImageField(allow_null=True,default=None,required=False)
     email = serializers.EmailField()
     is_staff=serializers.ReadOnlyField()
     username=serializers.ReadOnlyField()
@@ -164,9 +164,11 @@ class SellerUpdateSerializer(serializers.Serializer):
         #     instance.first_name = validated_data.pop('first_name')
         # if validated_data.get('last_name'):
         #     instance.last_name = validated_data.pop('last_name')
-        if validated_data.get('image'):
-            image = validated_data.pop('image')
-            instance = Buyer.objects.get(pk=instance.id)
+        print(instance.profile_pic)
+
+        if validated_data.get('profile_pic'):
+            image = validated_data.pop('profile_pic')
+            instance = Seller.objects.get(pk=instance.id)
             instance.profile_pic = image
             instance.save()
 
@@ -180,7 +182,7 @@ class BuyerUpdateSerializer(serializers.Serializer):
     middle_name = serializers.CharField(allow_null=True,default=None)
     first_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
     last_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
-    profile_pic=serializers.ImageField(allow_null=True,default=None)
+    profile_pic=serializers.ImageField(allow_null=True,default=None,required=False)
     email = serializers.EmailField()
     is_staff=serializers.ReadOnlyField()
     username=serializers.ReadOnlyField()
@@ -212,8 +214,8 @@ class BuyerUpdateSerializer(serializers.Serializer):
         #     instance.profile_pic = validated_data.pop('profile_pic')
         # instance.save()
         print(validated_data)
-        if validated_data.get('image'):
-            image = validated_data.pop('image')
+        if validated_data.get('profile_pic'):
+            image = validated_data.pop('profile_pic')
             instance = Buyer.objects.get(pk=instance.id)
             instance.profile_pic = image
             instance.save()
