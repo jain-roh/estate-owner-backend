@@ -81,7 +81,7 @@ def update_user(request):
                 request.data._mutable = True
                 request.data['profile_pic']=None
                 request.data._mutable = False
-            print(request.data)
+            print(request.data['profile_pic'])
             serializer = BuyerUpdateSerializer(obj,request.data)
 
             if serializer.is_valid():
@@ -105,7 +105,7 @@ def update_user(request):
                 request.data._mutable = True
                 request.data['profile_pic']=None
                 request.data._mutable = False
-            print(request.data)
+            print(request.data['profile_pic'])
             serializer = SellerUpdateSerializer(obj,request.data)
 
             if serializer.is_valid():
