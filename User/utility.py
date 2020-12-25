@@ -77,10 +77,10 @@ def update_user(request):
             return HttpResponse({'error': 'Please verify weather user is Buyer or Seller'}, statusx=400)
         if not is_staff:
             obj=Buyer.objects.get(id=request.user2['id'])
-            if request.data['profile_pic']=='':
-                request.data._mutable = True
-                request.data['profile_pic']=None
-                request.data._mutable = False
+            # if request.data['profile_pic']:
+            #     request.data._mutable = True
+            #     request.data['profile_pic']=None
+            #     request.data._mutable = False
             print(request.data['profile_pic'])
             serializer = BuyerUpdateSerializer(obj,request.data)
 
@@ -101,11 +101,11 @@ def update_user(request):
             return HttpResponse(serializer.errors, status=400)
         elif is_staff:
             obj = Seller.objects.get(id=request.user2['id'])
-            if request.data['profile_pic']=='':
-                request.data._mutable = True
-                request.data['profile_pic']=None
-                request.data._mutable = False
-            print(request.data['profile_pic'])
+            # if request.data['profile_pic']=='':
+            #     request.data._mutable = True
+            #     request.data['profile_pic']=None
+            #     request.data._mutable = False
+            # print(request.data['profile_pic'])
             serializer = SellerUpdateSerializer(obj,request.data)
 
             if serializer.is_valid():
