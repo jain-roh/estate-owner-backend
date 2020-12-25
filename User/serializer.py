@@ -211,12 +211,13 @@ class BuyerUpdateSerializer(serializers.Serializer):
         # if validated_data.get('profile_pic'):
         #     instance.profile_pic = validated_data.pop('profile_pic')
         # instance.save()
+        print(validated_data)
+
         if validated_data.get('profile_pic'):
             image=validated_data.pop('profile_pic')
             instance = Buyer.objects.get(pk=instance.id)
             instance.profile_pic = image
             instance.save()
-        print(validated_data)
 
         Buyer.objects.filter(pk=instance.id).update(**validated_data)
         user = Buyer.objects.get(pk=instance.id)
