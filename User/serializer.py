@@ -133,7 +133,7 @@ class SellerUpdateSerializer(serializers.Serializer):
     phone_number = serializers.IntegerField(allow_null=True)
     first_name = serializers.CharField(max_length=50, min_length=2, allow_null=True)
     last_name = serializers.CharField(max_length=50, min_length=2,allow_null=True)
-    profile_pic=serializers.ImageField(allow_null=True,default='')
+    profile_pic=serializers.ImageField(allow_null=True,default=None)
     email = serializers.EmailField()
     is_staff=serializers.ReadOnlyField()
     username=serializers.ReadOnlyField()
@@ -166,7 +166,9 @@ class SellerUpdateSerializer(serializers.Serializer):
         #     instance.last_name = validated_data.pop('last_name')
         image=validated_data.pop('profile_pic')
         print(validated_data)
-        if image!='':
+        if image:
+            if image == '':
+                image = None
             instance = Seller.objects.get(pk=instance.id)
             instance.profile_pic = image
             instance.save()
@@ -181,7 +183,7 @@ class BuyerUpdateSerializer(serializers.Serializer):
     middle_name = serializers.CharField(allow_null=True,default=None)
     first_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
     last_name = serializers.CharField(max_length=50, min_length=2, allow_blank=False, allow_null=False)
-    profile_pic=serializers.ImageField(allow_null=True,default='')
+    profile_pic=serializers.ImageField(allow_null=True,default=None)
     email = serializers.EmailField()
     is_staff=serializers.ReadOnlyField()
     username=serializers.ReadOnlyField()
@@ -214,7 +216,9 @@ class BuyerUpdateSerializer(serializers.Serializer):
         # instance.save()
         image=validated_data.pop('profile_pic')
 
-        if image!='':
+        if image:
+            if image=='':
+                image=None
             instance = Buyer.objects.get(pk=instance.id)
             instance.profile_pic = image
             instance.save()
