@@ -10,7 +10,7 @@ class PropertyFilter(django_filters.FilterSet):
     class Meta:
         model = Property
         fields = {
-            'id':['exact'],
+            'user':['exact'],
             'price':['lte','gte'],
             'address1':['exact'],
             'address2':['exact'],
