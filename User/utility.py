@@ -31,9 +31,7 @@ def create_jwt(request):
 
     if user is None:
         return HttpResponse({'error':'Wrong Username or Password'}, status=401)
-    print(type(is_staff))
-    print(type(user.is_staff))
-    print(user.is_staff)
+
     if not user.is_staff==is_staff:
         return HttpResponse({'error': 'Wrong Username or Password or '}, status=401)
     if user.is_staff:
@@ -80,6 +78,10 @@ def update_user(request):
         if not is_staff:
             obj=Buyer.objects.get(id=request.user2['id'])
             serializer = BuyerUpdateSerializer(obj,request.data)
+            if request.data['profile_pic']=='':
+                request.data._mutable = True
+                request.data['profile_pic']=None
+                request.data._mutable = False
             if serializer.is_valid():
                 serializer.save()
                 data = serializer.data
@@ -97,6 +99,10 @@ def update_user(request):
             return HttpResponse(serializer.errors, status=400)
         elif is_staff:
             obj = Seller.objects.get(id=request.user2['id'])
+            if request.data['profile_pic']=='':
+                request.data._mutable = True
+                request.data['profile_pic']=None
+                request.data._mutable = False
             serializer = SellerUpdateSerializer(obj,request.data)
 
             if serializer.is_valid():
