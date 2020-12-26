@@ -11,9 +11,7 @@ from django.core import serializers
 from django.conf import settings
 from rest_framework.response import Response
 from firebase_admin import firestore
-
 from EstateByTheOwner.settings import db
-
 
 def create_jwt(request):
     """

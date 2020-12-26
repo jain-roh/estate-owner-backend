@@ -17,6 +17,12 @@ class ProcessViewNoneMiddleware(BaseMiddleware):
         if request.path=='/healthcheck/':
             return JsonResponse({'Health':'Health check okay'},status=200)
         # return None
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        print(ip)
         token=request.META.get('HTTP_AUTHORIZATION','').replace('Bearer','').strip()
         data=verify_token((token))
         request.user2=data
