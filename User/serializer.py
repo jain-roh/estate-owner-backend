@@ -106,7 +106,6 @@ class SellerSerializer(UserSerializer):
         try:
             sllr.set_password(pwd)
             sllr.save()
-
         except Exception as e:
             sllr.delete()
         return sllr

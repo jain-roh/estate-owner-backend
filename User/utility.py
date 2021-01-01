@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.core.serializers.json import DjangoJSONEncoder
 import json
-from .serializer import BuyerSerializer,SellerSerializer,BuyerUpdateSerializer,SellerUpdateSerializer
+from .serializer import BuyerSerializer,SellerSerializer,BuyerUpdateSerializer,SellerUpdateSerializer,UserSerializer
 from .models import Buyer,Seller
 from django.core import serializers
 from django.conf import settings
@@ -43,6 +43,25 @@ def create_jwt(request):
     data.pop('password', None)
     return tokenize(data, ip)
     # return HttpResponse(user.errors, status=400)
+
+def change_password(request):
+    try:
+        is_staff = request.user2['is_staff']
+        id=request.user2['id']
+        obj = User.objects.get(id=id,is_staff=is_staff)
+
+        check_password=obj.check_password(request.data['old_password'])
+
+        if(check_password):
+            obj.set_password(request.data['new_password'])
+            obj.save()
+            return  Response({'message':'Password Updated'},status=200)
+        return Response({'error':'Wrong Token Details'},status=400)
+    except Exception as e:
+        return Response({'error': str(e)}, status=400)
+
+
+
 
 
 def fetch_user(request):
@@ -97,11 +116,6 @@ def update_user(request):
             return HttpResponse(serializer.errors, status=400)
         elif is_staff:
             obj = Seller.objects.get(id=request.user2['id'])
-            # if request.data['profile_pic']=='':
-            #     request.data._mutable = True
-            #     request.data['profile_pic']=None
-            #     request.data._mutable = False
-            # print(request.data['profile_pic'])
             serializer = SellerUpdateSerializer(obj,request.data,partial=True)
             print('Data')
             print(serializer.initial_data)
@@ -136,7 +150,6 @@ def create_user(request):
     is_staff=request.POST['is_staff']
     if is_staff is None:
         return HttpResponse({'error':'Please verify weather user is Buyer or Seller'},statusx=400)
-    print(is_staff)
     try:
         if is_staff=='False':
             serializer = BuyerSerializer(data=request.data)

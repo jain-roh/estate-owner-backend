@@ -1,5 +1,5 @@
 from rest_framework import generics
-from .utility import create_jwt,create_user,update_user,fetch_user
+from .utility import create_jwt,create_user,update_user,fetch_user,change_password
 from .serializer import UserSerializer,SellerSerializer
 from .models import User,Seller
 from rest_framework.response import Response
@@ -10,6 +10,12 @@ class UserLogin(generics.ListCreateAPIView):
     queryset = User.objects.all()
     def post(self, request):
         return create_jwt(request)
+
+class UserUpdate(generics.ListCreateAPIView):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    def post(self, request):
+        return change_password(request)
 
 class CreateUser(generics.ListCreateAPIView):
     serializer_class = UserSerializer
