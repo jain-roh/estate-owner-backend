@@ -42,7 +42,7 @@ class Property(models.Model):
 
 
 class PropertyImages(models.Model):
-   property=models.ForeignKey(Property,related_name='property_image')
+   property=models.ForeignKey(Property,related_name='property_image',on_delete=models.CASCADE)
    file=models.ImageField(storage=PrivateMediaStorage())
    display=models.BooleanField(default=True)
    class Meta:
