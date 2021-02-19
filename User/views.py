@@ -9,7 +9,11 @@ class UserLogin(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     def post(self, request):
-        return create_jwt(request)
+        data=request.data
+        if data.get('data',None):
+            print(data)
+        else:
+            return create_jwt(request)
 
 class UserUpdate(generics.ListCreateAPIView):
     serializer_class = UserSerializer
@@ -21,6 +25,7 @@ class CreateUser(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     def post(self, request):
+
         return create_user(request)
     def put(self,request,*args, **kwargs):
         if not request.user2:
