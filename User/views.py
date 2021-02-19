@@ -1,7 +1,7 @@
 from rest_framework import generics
 from .utility import create_jwt,create_user,update_user,fetch_user,change_password,tokenize
 from .serializer import UserSerializer,SellerSerializer,BuyerSerializer
-from .models import User,Seller
+from .models import User,Seller,Buyer
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 
