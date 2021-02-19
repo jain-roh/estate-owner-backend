@@ -4,7 +4,7 @@ from .serializer import UserSerializer,SellerSerializer,BuyerSerializer
 from .models import User,Seller,Buyer
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
-
+import jwt
 from rest_framework import status
 import json
 class UserLogin(generics.ListCreateAPIView):
@@ -14,17 +14,29 @@ class UserLogin(generics.ListCreateAPIView):
         data=request.POST
         if data.get('data',None):
             import requests
-            data=json.loads(data.get('data'))
-            response=requests.get('https://graph.facebook.com/'+str(data.get('userID')+'?fields=name,first_name,last_name,email,id&access_token='+str(data.get('accessToken'))))
-            response=json.loads(response.text)
-            temp_data={}
-            temp_data['first_name']=response['first_name']
-            temp_data['last_name'] = response['last_name']
-            temp_data['username'] = response['id']
-            temp_data['email'] = response['email']
-            temp_data['is_staff']=False
-            temp_data['password']='Test1234'
-            print(temp_data)
+            if data.get('type')=='facebook':
+                data=json.loads(data.get('data'))
+                response=requests.get('https://graph.facebook.com/'+str(data.get('userID')+'?fields=name,first_name,last_name,email,id&access_token='+str(data.get('accessToken'))))
+                response=json.loads(response.text)
+                temp_data={}
+                temp_data['first_name']=response['first_name']
+                temp_data['last_name'] = response['last_name']
+                temp_data['username'] = response['id']
+                temp_data['email'] = response['email']
+                temp_data['is_staff']=False
+                temp_data['password']='Test1234'
+                print(temp_data)
+            else:
+                data = json.loads(data.get('data'))
+                data=jwt.decode(data['code'],algorithms=["HS256"])
+                temp_data = {}
+                temp_data['first_name'] = response['given_name']
+                temp_data['last_name'] = response['fam ily_name']
+                temp_data['username'] = response['sub']
+                temp_data['email'] = response['email']
+                temp_data['is_staff'] = False
+                temp_data['password'] = 'Test1234'
+                print(temp_data)
             try:
                 user=authenticate(username=temp_data['username'], password='Test1234')
                 if user is None:
