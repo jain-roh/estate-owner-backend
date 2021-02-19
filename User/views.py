@@ -4,14 +4,17 @@ from .serializer import UserSerializer,SellerSerializer
 from .models import User,Seller
 from rest_framework.response import Response
 from rest_framework import status
-
+import json
 class UserLogin(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     def post(self, request):
-        data=request.data
+        data=request.POST
         if data.get('data',None):
-            print(data)
+            import requests
+            data=json.loads(data.get('data'))
+            response=requests.get('https://graph.facebook.com/'+str(data.get('userID')+'?fields=name,first_name,last_name,email,id&access_token='+str(data.get('accessToken'))))
+            print(response.text)
         else:
             return create_jwt(request)
 
@@ -25,7 +28,6 @@ class CreateUser(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     def post(self, request):
-
         return create_user(request)
     def put(self,request,*args, **kwargs):
         if not request.user2:
