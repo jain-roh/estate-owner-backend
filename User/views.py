@@ -23,7 +23,7 @@ class UserLogin(generics.ListCreateAPIView):
             temp_data['email'] = response.data['email']
             temp_data['is_staff']=False
             temp_data['password']='Test'
-            print(tem temp_data)
+            print(temp_data)
             serializer = BuyerSerializer(data=temp_data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
