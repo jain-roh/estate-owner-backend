@@ -29,7 +29,10 @@ class UserLogin(generics.ListCreateAPIView):
             else:
                 data = json.loads(data.get('data'))
                 print(data)
-                response=jwt.decode(data.get('code'))
+                try:
+                    response=jwt.decode(data.get('code'))
+                except Exception as e:
+                    print(e)
                 print(response)
                 temp_data = {}
                 temp_data['first_name'] = response['given_name']
