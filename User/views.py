@@ -30,7 +30,7 @@ class UserLogin(generics.ListCreateAPIView):
                 data = json.loads(data.get('data'))
                 print(data)
                 try:
-                    response=jwt.decode(data.get('code'))
+                    response=jwt.decode(data.get('code'),verify=False)
                 except Exception as e:
                     print(e)
                 print(response)
