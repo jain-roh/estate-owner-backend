@@ -10,7 +10,6 @@ class UserLogin(generics.ListCreateAPIView):
     queryset = User.objects.all()
     def post(self, request):
         data=request.data
-        print(data)
         if data.get('data',None):
             print(data)
         else:
