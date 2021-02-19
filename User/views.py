@@ -1,5 +1,5 @@
 from rest_framework import generics
-from .utility import create_jwt,create_user,update_user,fetch_user,change_password
+from .utility import create_jwt,create_user,update_user,fetch_user,change_password,tokenize
 from .serializer import UserSerializer,SellerSerializer,BuyerSerializer
 from .models import User,Seller
 from rest_framework.response import Response
@@ -24,14 +24,22 @@ class UserLogin(generics.ListCreateAPIView):
             temp_data['password']='Test1234'
             print(temp_data)
             try:
-                serializer = BuyerSerializer(data=temp_data)
-                if serializer.is_valid(raise_exception=True):
-                    serializer.save()
-                    data=serializer.data
-                    data.pop('password',None)
-                    print(data)
-                    return tokenize(data,ip)
-                print(serializer.errors)
+                user=authenticate(username=temp_data['username'], password='Test1234')
+                if user is None:
+                    serializer = BuyerSerializer(data=temp_data)
+                    if serializer.is_valid(raise_exception=True):
+                        serializer.save()
+                        data=serializer.data
+                        data.pop('password',None)
+                        print(data)
+                        return tokenize(data,'aaa')
+                    print(serializer.errors)
+                else:
+                    user = Buyer.objects.get(id=user.id)
+                    user = BuyerSerializer(user)
+                    data = user.data
+                    data.pop('password', None)
+                    return tokenize(data, 'aaa')
                 return HttpResponse(serializer.errors, status=400)
             except Exception as e:
                 print(e)

@@ -18,11 +18,11 @@ def create_jwt(request):
     the above token need to be saved in database, and a one-to-one
     relation should exist with the username/user_pk
     """
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
+    # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    # if x_forwarded_for:
+    #     ip = x_forwarded_for.split(',')[0]
+    # else:
+    #     ip = request.META.get('REMOTE_ADDR')
     username = request.POST['username']
     password = request.POST['password']
     is_staff=request.data['is_staff']!='False'
@@ -41,7 +41,7 @@ def create_jwt(request):
         user=BuyerSerializer(user)
     data = user.data
     data.pop('password', None)
-    return tokenize(data, ip)
+    return tokenize(data, 'aaa')
     # return HttpResponse(user.errors, status=400)
 
 def change_password(request):
