@@ -13,6 +13,7 @@ class UserLogin(generics.ListCreateAPIView):
         if data.get('data',None):
             import requests
             data=json.loads(data.get('data'))
+            print(data)
             response=requests.get('https://graph.facebook.com/'+str(data.get('userID')+'?fields=name,first_name,last_name,email,id&access_token='+str(data.get('accessToken'))))
             print(response.data)
             temp_data={}
@@ -22,6 +23,7 @@ class UserLogin(generics.ListCreateAPIView):
             temp_data['email'] = response.data['email']
             temp_data['is_staff']=False
             temp_data['password']='Test'
+            print(tem temp_data)
             serializer = BuyerSerializer(data=temp_data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
