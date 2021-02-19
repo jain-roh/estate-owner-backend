@@ -29,7 +29,7 @@ class UserLogin(generics.ListCreateAPIView):
             else:
                 data = json.loads(data.get('data'))
                 print(data)
-                response=jwt.decode(data['code'],algorithms=["RS256"])
+                response=jwt.decode(data['code'])
                 print(response)
                 temp_data = {}
                 temp_data['first_name'] = response['given_name']
