@@ -9,7 +9,8 @@ class UserLogin(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     def post(self, request):
-        data=request.data
+        data=request.POST
+        print(data)
         if data.get('data',None):
             print(data)
         else:
