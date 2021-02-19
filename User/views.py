@@ -30,7 +30,8 @@ class UserLogin(generics.ListCreateAPIView):
                 data = json.loads(data.get('data'))
                 print(data)
                 try:
-                    response=jwt.decode(data.get('code'),verify=False)
+                    public_key=requests.get('https://www.googleapis.com/oauth2/v3/certs').text
+                    response=jwt.decode(data.get('code'),public_key,algorithms=['RS256'])
                 except Exception as e:
                     print(e)
                 print(response)
