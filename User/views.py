@@ -29,6 +29,7 @@ class UserLogin(generics.ListCreateAPIView):
                 data.pop('password',None)
                 print(data)
                 return tokenize(data,ip)
+            print(serializer.errors)
             return HttpResponse(serializer.errors, status=400)
         else:
             return create_jwt(request)
