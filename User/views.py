@@ -3,6 +3,8 @@ from .utility import create_jwt,create_user,update_user,fetch_user,change_passwo
 from .serializer import UserSerializer,SellerSerializer,BuyerSerializer
 from .models import User,Seller
 from rest_framework.response import Response
+from django.contrib.auth import authenticate
+
 from rest_framework import status
 import json
 class UserLogin(generics.ListCreateAPIView):
