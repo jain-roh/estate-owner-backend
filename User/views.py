@@ -23,15 +23,18 @@ class UserLogin(generics.ListCreateAPIView):
             temp_data['is_staff']=False
             temp_data['password']='Test'
             print(temp_data)
-            serializer = BuyerSerializer(data=temp_data)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                data=serializer.data
-                data.pop('password',None)
-                print(data)
-                return tokenize(data,ip)
-            print(serializer.errors)
-            return HttpResponse(serializer.errors, status=400)
+            try:
+                serializer = BuyerSerializer(data=temp_data)
+                if serializer.is_valid(raise_exception=True):
+                    serializer.save()
+                    data=serializer.data
+                    data.pop('password',None)
+                    print(data)
+                    return tokenize(data,ip)
+                print(serializer.errors)
+                return HttpResponse(serializer.errors, status=400)
+            except Exception as e:
+                print(e)
         else:
             return create_jwt(request)
 
