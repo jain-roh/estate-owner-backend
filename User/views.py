@@ -1,6 +1,6 @@
 from rest_framework import generics
 from .utility import create_jwt,create_user,update_user,fetch_user,change_password
-from .serializer import UserSerializer,SellerSerializer
+from .serializer import UserSerializer,SellerSerializer,BuyerSerializer
 from .models import User,Seller
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,10 +15,8 @@ class UserLogin(generics.ListCreateAPIView):
             data=json.loads(data.get('data'))
             response=requests.get('https://graph.facebook.com/'+str(data.get('userID')+'?fields=name,first_name,last_name,email,id&access_token='+str(data.get('accessToken'))))
             response=json.loads(response.text)
-            print(response)
             temp_data={}
             temp_data['first_name']=response['first_name']
-            print(temp_data)
             temp_data['last_name'] = response['last_name']
             temp_data['username'] = response['id']
             temp_data['email'] = response['email']
