@@ -14,7 +14,7 @@ class UserLogin(generics.ListCreateAPIView):
             import requests
             data=json.loads(data.get('data'))
             response=requests.get('https://graph.facebook.com/'+str(data.get('userID')+'?fields=name,first_name,last_name,email,id&access_token='+str(data.get('accessToken'))))
-            response=json.loads(response.data)
+            response=response.data
             print(response)
             temp_data={}
             temp_data['first_name']=response['first_name']
