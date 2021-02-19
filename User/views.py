@@ -21,7 +21,7 @@ class UserLogin(generics.ListCreateAPIView):
             temp_data['username'] = response['id']
             temp_data['email'] = response['email']
             temp_data['is_staff']=False
-            temp_data['password']='Test'
+            temp_data['password']='Test1234'
             print(temp_data)
             try:
                 serializer = BuyerSerializer(data=temp_data)
