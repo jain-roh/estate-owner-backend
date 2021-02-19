@@ -141,12 +141,13 @@ def update_user(request):
         print(e)
 
 
-def create_user(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
+def  create_user(  ):
+    # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    # if x_forwarded_for:
+    #     ip = x_forwarded_for.split(',')[0]
+    # else:
+    #     ip = request.META.get('REMOTE_ADDR')
+    ip='test1'
     is_staff=request.POST['is_staff']
     if is_staff is None:
         return HttpResponse({'error':'Please verify weather user is Buyer or Seller'},statusx=400)

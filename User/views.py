@@ -14,7 +14,15 @@ class UserLogin(generics.ListCreateAPIView):
             import requests
             data=json.loads(data.get('data'))
             response=requests.get('https://graph.facebook.com/'+str(data.get('userID')+'?fields=name,first_name,last_name,email,id&access_token='+str(data.get('accessToken'))))
-            print(response.text)
+            print(response.data)
+            # serializer = BuyerSerializer(data=request.data)
+            # if serializer.is_valid(raise_exception=True):
+            #     serializer.save()
+            #     data=serializer.data
+            #     data.pop('password',None)
+            #     print(data)
+            #     return tokenize(data,ip)
+            # return HttpResponse(serializer.errors, status=400)
         else:
             return create_jwt(request)
 
