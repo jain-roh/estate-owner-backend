@@ -6,7 +6,7 @@ from .models import Buyer,Seller
 
 class UserSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
-    username=serializers.CharField(max_length=10,min_length=5,allow_blank=False,allow_null=False)
+    username=serializers.CharField(max_length=50,min_length=5,allow_blank=False,allow_null=False)
     email = serializers.EmailField()
     password = serializers.CharField(max_length=50,min_length=8,allow_blank=False,allow_null=False)
     is_staff=serializers.BooleanField()
