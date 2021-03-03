@@ -151,6 +151,7 @@ def  create_user(  ):
     is_staff=request.POST['is_staff']
     if is_staff is None:
         return HttpResponse({'error':'Please verify weather user is Buyer or Seller'},statusx=400)
+    print(is_staff)
     try:
         if is_staff=='False':
             serializer = BuyerSerializer(data=request.data)
