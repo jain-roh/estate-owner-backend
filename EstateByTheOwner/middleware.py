@@ -23,8 +23,11 @@ class ProcessViewNoneMiddleware(BaseMiddleware):
         else:
             ip = request.META.get('REMOTE_ADDR')
         print(ip)
-        token=request.META.get('HTTP_AUTHORIZATION','').replace('Bearer','').strip()
-        data=verify_token((token))
-        request.user2=data
+        try:
+            token=request.META.get('HTTP_AUTHORIZATION','').replace('Bearer','').strip()
+            data=verify_token((token))
+            request.user2=data
+        except:
+            pass
 
 

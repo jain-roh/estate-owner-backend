@@ -30,12 +30,6 @@ class PropertyImageUpdateSerializer(serializers.Serializer):
         # prop = PropertyImages.objects.get(pk=instance.id)
         instance.display=validated_data['display']
         instance.save()
-        # PropertyImages.objects.filter(pk=instance.id) \
-        #     .update(**validated_data)
-        # print(validated_data)
-        # instance.property_image=validated_data.get('property_image')
-        # instance.save()
-
         return instance
 
 class PropertySerializer(serializers.Serializer):
