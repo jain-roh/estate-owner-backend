@@ -141,7 +141,7 @@ def update_user(request):
         print(e)
 
 
-def  create_user(  ):
+def  create_user(request):
     # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     # if x_forwarded_for:
     #     ip = x_forwarded_for.split(',')[0]
